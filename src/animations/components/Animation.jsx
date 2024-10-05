@@ -36,20 +36,26 @@ const Animation = () => {
   const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
-  const onCloseModal = () => {
-    close()
+   const onCloseModal = () => {
+    close();
+  
+    // Restablecer la posición de la cámara
     camera.position.set(-50, 90, 150);
-
+    camera.lookAt(scene.position); // Asegúrate de que la cámara esté mirando hacia el centro de la escena
+  
+    // Actualizar el raycaster con la nueva posición de la cámara
+    raycaster.setFromCamera(mouse, camera);
+  
+    // Restablecer la velocidad
     optionsRef.current.speed = 1;
     if (guiRef.current) {
       guiRef.current.__controllers.forEach(controller => {
-        if (controller.property === 'speed') {  
+        if (controller.property === 'speed') {
           controller.setValue(1);
         }
       });
     }
-console.log('me estoy ejecutando')
-  }
+  };
 
 
 
@@ -91,23 +97,14 @@ console.log('me estoy ejecutando')
           }
           camera.position.set(
             clickedObject.position.x,
-            clickedObject.position.y + clickedObject.geometry.parameters.radius + 30,
+            clickedObject.position.y + clickedObject.geometry.parameters.radius + 40,
             clickedObject.position.z
           );
           // Orientar la cámara hacia el planeta seleccionado
           camera.lookAt(clickedObject.position);
           setNeoInfo(info);
-          // open();
+          open();
         }
-        camera.position.set(
-          clickedObject.position.x,
-          clickedObject.position.y + clickedObject.geometry.parameters.radius + 10,
-          clickedObject.position.z
-        );
-        // Orientar la cámara hacia el planeta seleccionado
-        camera.lookAt(clickedObject.position);
-        setNeoInfo(info);
-        open();
       }
     }
   

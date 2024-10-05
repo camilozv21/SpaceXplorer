@@ -10,6 +10,9 @@ const InfoModal = ({ opened, onClose,neoInfo}) => {
       title="NEO'S INFORMATION"
       transitionProps={{ transition: 'fade', duration: 300, timingFunction: 'linear' }}
       className='modal-menu'
+      overlayProps={{
+        backgroundOpacity: 0,
+      }}
     >
      {neoInfo && (
         <div>
