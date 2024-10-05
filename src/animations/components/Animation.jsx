@@ -25,6 +25,8 @@ const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let scene = new THREE.Scene();
+// Factor de escala para exagerar la distancia entre órbitas
+const scaleFactor = 1;
 
 const Animation = () => {
   const mountRef = useRef(null);
@@ -52,7 +54,6 @@ console.log('me estoy ejecutando')
 
 
   const onNeoSelected = (event) => {
-    camera.position.set(0, 0, 0);
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -72,22 +73,31 @@ console.log('me estoy ejecutando')
 
     // Si hay intersección
     if (intersects.length > 0) {
-      const clickedObject = intersects[0].object;
-
-      // Obtener información del catálogo basada en el nombre del objeto
-      const info = objectCatalog[clickedObject.name];
-      // Crear un label o un popup con la información
-      if (info) {
-        console.log(clickedObject)
-
-        // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
-        optionsRef.current.speed = 0; // Detener el movimiento   --EFECTO ONCLOSE 
-        if (guiRef.current) {
-          guiRef.current.__controllers.forEach(controller => {
-            if (controller.property === 'speed') {
-              controller.setValue(0);
-            }
-          });
+        const clickedObject = intersects[0].object;
+  
+        // Obtener información del catálogo basada en el nombre del objeto
+        const info = objectCatalog[clickedObject.name];
+        // Crear un label o un popup con la información
+        if (info) {
+          
+          // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
+          optionsRef.current.speed = 0; // Detener el movimiento
+          if (guiRef.current) {
+            guiRef.current.__controllers.forEach(controller => {
+              if (controller.property === 'speed') {
+                controller.setValue(0);
+              }
+            });
+          }
+          camera.position.set(
+            clickedObject.position.x,
+            clickedObject.position.y + clickedObject.geometry.parameters.radius + 30,
+            clickedObject.position.z
+          );
+          // Orientar la cámara hacia el planeta seleccionado
+          camera.lookAt(clickedObject.position);
+          setNeoInfo(info);
+          // open();
         }
         camera.position.set(
           clickedObject.position.x,
@@ -100,7 +110,7 @@ console.log('me estoy ejecutando')
         open();
       }
     }
-  }
+  
 
   useEffect(() => {
     // Renderer
@@ -186,7 +196,7 @@ console.log('me estoy ejecutando')
       const planetMaterial = new THREE.MeshStandardMaterial({ map: planetTexture });
       const planet = new THREE.Mesh(planetGeometry, planetMaterial);
       const planetObj = new THREE.Object3D();
-      planet.position.set(x, 0, 0);
+      planet.position.set(x * scaleFactor, 0, 0);
       planet.name = name;
 
       if (ring) {
@@ -194,12 +204,12 @@ console.log('me estoy ejecutando')
         const ringMat = new THREE.MeshBasicMaterial({ map: ring.ringmat, side: THREE.DoubleSide });
         const ringMesh = new THREE.Mesh(ringGeo, ringMat);
         planetObj.add(ringMesh);
-        ringMesh.position.set(x, 0, 0);
+        ringMesh.position.set(x * scaleFactor, 0, 0);
         ringMesh.rotation.x = -0.5 * Math.PI;
       }
       scene.add(planetObj);
       planetObj.add(planet);
-      createLineLoopWithMesh(x, 0xffffff, 3);
+      createLineLoopWithMesh(x * scaleFactor, 0xffffff, 3);
       return { planetObj, planet };
     };
 
