@@ -17,8 +17,8 @@ import plutoImg from '../constants/images/pluto.jpg';
 import saturnRingImg from '../constants/images/saturn_ring.png';
 import uranusRingImg from '../constants/images/uranus_ring.png';
 import { objectCatalog } from '../constants/objectCatalog';
-import { Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import InfoModal from './InfoModal';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -34,10 +34,10 @@ const Animation = () => {
   const onNeoSelected = (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  
+
     // Actualizar el raycaster con la cámara y la posición del mouse
     raycaster.setFromCamera(mouse, camera);
-  
+
     // Recopilar todos los objetos en la escena
     const objects = [];
     scene.traverse((child) => {
@@ -45,23 +45,23 @@ const Animation = () => {
         objects.push(child);
       }
     });
-  
+
     // Detectar intersecciones con los objetos en la escena
     const intersects = raycaster.intersectObjects(objects);
-  
+
     // Si hay intersección
     if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-  
-        // Obtener información del catálogo basada en el nombre del objeto
-        const info = objectCatalog[clickedObject.name];
-        // Crear un label o un popup con la información
-        if (info) {
-          setNeoInfo(info);
-          open();
-        }
+      const clickedObject = intersects[0].object;
+
+      // Obtener información del catálogo basada en el nombre del objeto
+      const info = objectCatalog[clickedObject.name];
+      // Crear un label o un popup con la información
+      if (info) {
+        setNeoInfo(info);
+        open();
       }
     }
+  }
 
   useEffect(() => {
     // Renderer
@@ -216,16 +216,10 @@ const Animation = () => {
 
   return (
     <div ref={mountRef}>
-      <Modal opened={opened} onClose={close} title="Información del NEO">
-        {neoInfo && (
-          <div>
-            <strong>{neoInfo.name}</strong><br />
-            Magnitud: {neoInfo.magnitude}<br />
-            Tipo: {neoInfo.tipo}<br />
-            <img src={neoInfo.img} alt={neoInfo.name} style={{ width: '100%' }} />
-          </div>
-        )}
-      </Modal>
+      {neoInfo && (
+      <InfoModal opened={opened} onClose={close} neoInfo={neoInfo} />
+       
+      )}
     </div>
   );
 };

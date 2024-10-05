@@ -1,38 +1,24 @@
-import { useState } from 'react';
-import { Modal, Group, Button } from '@mantine/core';
+import { Modal, Text } from '@mantine/core';
 
-function InfoModal() {
-  const [noTransitionOpened, setNoTransitionOpened] = useState(false);
-  const [slowTransitionOpened, setSlowTransitionOpened] = useState(false);
+const InfoModal = ({ opened, onClose,neoInfo}) => {
 
   return (
-    <>
-      <Modal
-        opened={slowTransitionOpened}
-        onClose={() => setSlowTransitionOpened(false)}
-        title="Please consider this"
-        transitionProps={{ transition: 'rotate-left' }}
-      >
-        rotate-left transition
-      </Modal>
-
-      <Modal
-        opened={noTransitionOpened}
-        onClose={() => setNoTransitionOpened(false)}
-        title="Please consider this"
-        transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}
-      >
-        fade transition 600ms linear transition
-      </Modal>
-
-      <Group justify="center">
-        <Button onClick={() => setSlowTransitionOpened(true)} variant="default">
-          Rotate left transition
-        </Button>
-        <Button onClick={() => setNoTransitionOpened(true)} variant="default">
-          Fade transition
-        </Button>
-      </Group>
-    </>
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      title="NEO'S INFORMATION"
+      transitionProps={{ transition: 'fade', duration: 300, timingFunction: 'linear' }}
+    >
+     {neoInfo && (
+        <div>
+          <strong>{neoInfo.name}</strong><br />
+          Magnitud: {neoInfo.magnitude}<br />
+          Tipo: {neoInfo.tipo}<br />
+          <img src={neoInfo.img} alt={neoInfo.name} style={{ width: '100%' }} />
+        </div>
+     )}
+    </Modal>
   );
-}
+};
+
+export default InfoModal;
