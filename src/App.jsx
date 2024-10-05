@@ -1,4 +1,4 @@
-import Animation from './animations/components/animation'
+import Animation from './animations/components/Animation'
 import './App.css'
 
 function App() {
