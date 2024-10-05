@@ -1,4 +1,5 @@
 import { Modal, Text } from '@mantine/core';
+ import '../../App.css';
 
 const InfoModal = ({ opened, onClose,neoInfo}) => {
 
@@ -8,13 +9,13 @@ const InfoModal = ({ opened, onClose,neoInfo}) => {
       onClose={onClose}
       title="NEO'S INFORMATION"
       transitionProps={{ transition: 'fade', duration: 300, timingFunction: 'linear' }}
+      className='modal-menu'
     >
      {neoInfo && (
         <div>
           <strong>{neoInfo.name}</strong><br />
           Magnitud: {neoInfo.magnitude}<br />
           Tipo: {neoInfo.tipo}<br />
-          <img src={neoInfo.img} alt={neoInfo.name} style={{ width: '100%' }} />
         </div>
      )}
     </Modal>

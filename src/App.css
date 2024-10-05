@@ -1,0 +1,10 @@
+/* .modal-menu .mantine-Modal-header {
+    background-color: rebeccapurple;
+}
+
+.modal-menu .mantine-Modal-content{
+    background-color: rebeccapurple;
+} */
+.modal-menu .mantine-Modal-inner{
+    justify-content: flex-end !important;
+}
