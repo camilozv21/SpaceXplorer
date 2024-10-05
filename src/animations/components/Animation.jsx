@@ -16,6 +16,62 @@ import neptuneImg from '../constants/images/neptune.jpg';
 import plutoImg from '../constants/images/pluto.jpg';
 import saturnRingImg from '../constants/images/saturn_ring.png';
 import uranusRingImg from '../constants/images/uranus_ring.png';
+import { objectCatalog } from '../constants/objectCatalog';
+
+// Definir variables globales
+const mouse = new THREE.Vector2();
+const raycaster = new THREE.Raycaster();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+let scene = new THREE.Scene();
+
+const onNeoSelected = (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Actualizar el raycaster con la cámara y la posición del mouse
+  raycaster.setFromCamera(mouse, camera);
+
+  // Recopilar todos los objetos en la escena
+  const objects = [];
+  scene.traverse((child) => {
+    if (child.isMesh) {
+      objects.push(child);
+    }
+  });
+
+  // Detectar intersecciones con los objetos en la escena
+  const intersects = raycaster.intersectObjects(objects);
+
+  // Si hay intersección
+  if (intersects.length > 0) {
+      const clickedObject = intersects[0].object;
+      console.log(intersects)
+
+      // Obtener información del catálogo basada en el nombre del objeto
+      const info = objectCatalog[clickedObject.name];
+      // Crear un label o un popup con la información
+      if (info) {
+        const label = document.createElement('div');
+        label.style.position = 'absolute';
+        label.style.color = 'white';
+        label.style.backgroundColor = 'black';
+        label.style.padding = '10px';
+        label.innerHTML = `
+          <strong>${info.name}</strong><br>
+          ${info.magnitude}<br>
+          ${info.tipo}
+        `;
+        label.style.left = `${event.clientX}px`;
+        label.style.top = `${event.clientY}px`;
+        document.body.appendChild(label);
+  
+        // Quitar el label después de 3 segundos
+        setTimeout(() => {
+          label.remove();
+        }, 3000);
+      }
+    }
+  }
 
 const Animation = () => {
   const mountRef = useRef(null);
@@ -27,10 +83,10 @@ const Animation = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     // Scene
-    const scene = new THREE.Scene();
+    // const scene = new THREE.Scene();
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(-50, 90, 150);
 
     // Controls
@@ -63,11 +119,13 @@ const Animation = () => {
       starImg,
     ]);
     scene.background = cubeTexture;
+    // scene.background = starTexture;
 
     // Sun
     const sungeo = new THREE.SphereGeometry(15, 50, 50);
     const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
     const sun = new THREE.Mesh(sungeo, sunMaterial);
+    sun.name = 'sun';
     scene.add(sun);
 
     // Lights
@@ -96,12 +154,14 @@ const Animation = () => {
     }
 
     // Generate planets
-    const genratePlanet = (size, planetTexture, x, ring) => {
+    const genratePlanet = (name, size, planetTexture, x, ring) => {
       const planetGeometry = new THREE.SphereGeometry(size, 50, 50);
       const planetMaterial = new THREE.MeshStandardMaterial({ map: planetTexture });
       const planet = new THREE.Mesh(planetGeometry, planetMaterial);
       const planetObj = new THREE.Object3D();
       planet.position.set(x, 0, 0);
+      planet.name = name;
+      console.log(planet)
       if (ring) {
         const ringGeo = new THREE.RingGeometry(ring.innerRadius, ring.outerRadius, 32);
         const ringMat = new THREE.MeshBasicMaterial({ map: ring.ringmat, side: THREE.DoubleSide });
@@ -117,15 +177,15 @@ const Animation = () => {
     };
 
     const planets = [
-      { ...genratePlanet(3.2, mercuryTexture, 28), rotaing_speed_around_sun: 0.004, self_rotation_speed: 0.004 },
-      { ...genratePlanet(5.8, venusTexture, 44), rotaing_speed_around_sun: 0.015, self_rotation_speed: 0.002 },
-      { ...genratePlanet(6, earthTexture, 62), rotaing_speed_around_sun: 0.01, self_rotation_speed: 0.02 },
-      { ...genratePlanet(4, marsTexture, 78), rotaing_speed_around_sun: 0.008, self_rotation_speed: 0.018 },
-      { ...genratePlanet(12, jupiterTexture, 100), rotaing_speed_around_sun: 0.002, self_rotation_speed: 0.04 },
-      { ...genratePlanet(10, saturnTexture, 138, { innerRadius: 10, outerRadius: 20, ringmat: saturnRingTexture }), rotaing_speed_around_sun: 0.0009, self_rotation_speed: 0.038 },
-      { ...genratePlanet(7, uranusTexture, 176, { innerRadius: 7, outerRadius: 12, ringmat: uranusRingTexture }), rotaing_speed_around_sun: 0.0004, self_rotation_speed: 0.03 },
-      { ...genratePlanet(7, neptuneTexture, 200), rotaing_speed_around_sun: 0.0001, self_rotation_speed: 0.032 },
-      { ...genratePlanet(2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
+      { ...genratePlanet('mercury', 3.2, mercuryTexture, 28), rotaing_speed_around_sun: 0.004, self_rotation_speed: 0.004 },
+      { ...genratePlanet('venus', 5.8, venusTexture, 44), rotaing_speed_around_sun: 0.015, self_rotation_speed: 0.002 },
+      { ...genratePlanet('earth', 6, earthTexture, 62), rotaing_speed_around_sun: 0.01, self_rotation_speed: 0.02 },
+      { ...genratePlanet('mars', 4, marsTexture, 78), rotaing_speed_around_sun: 0.008, self_rotation_speed: 0.018 },
+      { ...genratePlanet('jupiter', 12, jupiterTexture, 100), rotaing_speed_around_sun: 0.002, self_rotation_speed: 0.04 },
+      { ...genratePlanet('saturn', 10, saturnTexture, 138, { innerRadius: 10, outerRadius: 20, ringmat: saturnRingTexture }), rotaing_speed_around_sun: 0.0009, self_rotation_speed: 0.038 },
+      { ...genratePlanet('uranus', 7, uranusTexture, 176, { innerRadius: 7, outerRadius: 12, ringmat: uranusRingTexture }), rotaing_speed_around_sun: 0.0004, self_rotation_speed: 0.03 },
+      { ...genratePlanet('neptune', 7, neptuneTexture, 200), rotaing_speed_around_sun: 0.0001, self_rotation_speed: 0.032 },
+      { ...genratePlanet('pluto', 2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
     ];
 
     // GUI
@@ -154,6 +214,12 @@ const Animation = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
+
+    // Add event listener for NEO selection
+    const handleMouseClick = (event) => {
+      onNeoSelected(event);
+    };
+    renderer.domElement.addEventListener('click', handleMouseClick);
 
     return () => {
       window.removeEventListener('resize', handleResize);
