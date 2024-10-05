@@ -1,4 +1,75 @@
-# Bloque que habilita el evento click con objeto 
+```javascript
+//import { sourceMapsEnabled } from 'process';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+
+//Creación de la escena, camara y canvas.
+const w =  window.innerWidth;
+const h =  window.innerHeight;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 100);
+camera.position.z = 6;
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(w, h);
+document.body.appendChild(renderer.domElement);
+
+const textureLoader = new THREE.TextureLoader();
+const sunTexture = textureLoader.load('Public/Textures/Eris.jpg');  // Ajusta el path según tu carpeta
+//const asteroidTexture = textureLoader.load('Public/Textures/Eris.jpg');  // Ajusta el path según tu carpeta
+
+//Creo objetos con Mesh.
+
+//color
+//const sunmaterial = new THREE.MeshBasicMaterial({color: 0xFFD700})
+const asteroidmaterial = new THREE.MeshBasicMaterial({color: 0x4B4B4B})
+
+const sunmaterial = new THREE.MeshBasicMaterial({map: sunTexture})
+
+const sun = new THREE.Mesh(
+    new THREE.SphereGeometry(3,16,16), sunmaterial
+)
+
+const asteroid = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5,0.2,20), asteroidmaterial
+)
+
+//Puedo mover los objetos en la escena modificando la posición
+asteroid.position.x = 15
+asteroid.position.y = 1
+sun.position.x = -3
+
+scene.add(asteroid, sun)
+
+//NOTE - sun light (point light)
+const sunLight = new THREE.PointLight(0xffffff, 4, 300);
+scene.add(sunLight);
+//////////////////////////////////////
+
+//////////////////////////////////////
+//NOTE - ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0);
+scene.add(ambientLight);
+//Construyo catálogo de objetos quemado
+
+const objectCatalog = {
+    asteroid: {
+      name: "1566 Icarus (1949 MA)",
+      magnitude: "16.57",
+      tipo: "NEO",
+    },
+    sun: {
+      name: "Sol",
+      magnitude: "-100",
+      tipo: "Estrella",
+    }
+  };
+
+asteroid.name = "asteroid";
+sun.name      = 'sun';
+
+// Raycaster para detectar clics
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
 // Función para detectar clic
 function onMouseClick(event) {
@@ -43,5 +114,23 @@ function onMouseClick(event) {
       }
     }
 
-    window.addEventListener('click', onMouseClick);
+window.addEventListener('click', onMouseClick);
 
+// Agregar controles orbitales
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // Efecto de suavizado
+controls.dampingFactor = 0.05; // Valor de suavizado
+controls.enableZoom = true; // Habilitar zoom con el mouse
+
+// Animación
+function animate() {
+  requestAnimationFrame(animate);
+  
+  // Actualizar los controles orbitales
+  controls.update();
+
+  renderer.render(scene, camera);
+}
+
+animate();
+```
