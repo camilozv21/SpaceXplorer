@@ -34,8 +34,25 @@ const Animation = () => {
   const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
+  const onCloseModal = () => {
+    close()
+    camera.position.set(-50, 90, 150);
+
+    optionsRef.current.speed = 1;
+    if (guiRef.current) {
+      guiRef.current.__controllers.forEach(controller => {
+        if (controller.property === 'speed') {  
+          controller.setValue(1);
+        }
+      });
+    }
+console.log('me estoy ejecutando')
+  }
+
+
+
   const onNeoSelected = (event) => {
-    camera.position.set(0,0,0);
+    camera.position.set(0, 0, 0);
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -55,35 +72,35 @@ const Animation = () => {
 
     // Si hay intersección
     if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-  
-        // Obtener información del catálogo basada en el nombre del objeto
-        const info = objectCatalog[clickedObject.name];
-        // Crear un label o un popup con la información
-        if (info) {
-          console.log(clickedObject)
-          
-          // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
-          optionsRef.current.speed = 0; // Detener el movimiento
-          if (guiRef.current) {
-            guiRef.current.__controllers.forEach(controller => {
-              if (controller.property === 'speed') {
-                controller.setValue(0);
-              }
-            });
-          }
-          camera.position.set(
-            clickedObject.position.x,
-            clickedObject.position.y + clickedObject.geometry.parameters.radius + 10,
-            clickedObject.position.z
-          );
-          // Orientar la cámara hacia el planeta seleccionado
-          camera.lookAt(clickedObject.position);
-          setNeoInfo(info);
-          // open();
+      const clickedObject = intersects[0].object;
+
+      // Obtener información del catálogo basada en el nombre del objeto
+      const info = objectCatalog[clickedObject.name];
+      // Crear un label o un popup con la información
+      if (info) {
+        console.log(clickedObject)
+
+        // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
+        optionsRef.current.speed = 0; // Detener el movimiento   --EFECTO ONCLOSE 
+        if (guiRef.current) {
+          guiRef.current.__controllers.forEach(controller => {
+            if (controller.property === 'speed') {
+              controller.setValue(0);
+            }
+          });
         }
+        camera.position.set(
+          clickedObject.position.x,
+          clickedObject.position.y + clickedObject.geometry.parameters.radius + 10,
+          clickedObject.position.z
+        );
+        // Orientar la cámara hacia el planeta seleccionado
+        camera.lookAt(clickedObject.position);
+        setNeoInfo(info);
+        open();
       }
     }
+  }
 
   useEffect(() => {
     // Renderer
@@ -96,7 +113,7 @@ const Animation = () => {
 
     // Camera
     // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-50, 90, 150);
+    camera.position.set(-50, 90, 150); // EFECTO ONCLOSE SETTEARLO 
     // camera.position.set(0,0,50);
 
     // Controls
@@ -248,8 +265,8 @@ const Animation = () => {
   return (
     <div ref={mountRef}>
       {neoInfo && (
-      <InfoModal opened={opened} onClose={close} neoInfo={neoInfo} />
-       
+        <InfoModal opened={opened} onClose={onCloseModal} neoInfo={neoInfo} />
+
       )}
     </div>
   );
