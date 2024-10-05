@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'https://unpkg.com/three@0.127.0/build/three.module.js';
 import { GUI } from 'dat.gui';
 import { OrbitControls } from 'https://unpkg.com/three@0.127.0/examples/jsm/controls/OrbitControls.js';
@@ -17,6 +17,8 @@ import plutoImg from '../constants/images/pluto.jpg';
 import saturnRingImg from '../constants/images/saturn_ring.png';
 import uranusRingImg from '../constants/images/uranus_ring.png';
 import { objectCatalog } from '../constants/objectCatalog';
+import { Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -24,56 +26,42 @@ const raycaster = new THREE.Raycaster();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let scene = new THREE.Scene();
 
-const onNeoSelected = (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  // Actualizar el raycaster con la cámara y la posición del mouse
-  raycaster.setFromCamera(mouse, camera);
-
-  // Recopilar todos los objetos en la escena
-  const objects = [];
-  scene.traverse((child) => {
-    if (child.isMesh) {
-      objects.push(child);
-    }
-  });
-
-  // Detectar intersecciones con los objetos en la escena
-  const intersects = raycaster.intersectObjects(objects);
-
-  // Si hay intersección
-  if (intersects.length > 0) {
-      const clickedObject = intersects[0].object;
-
-      // Obtener información del catálogo basada en el nombre del objeto
-      const info = objectCatalog[clickedObject.name];
-      // Crear un label o un popup con la información
-      if (info) {
-        const label = document.createElement('div');
-        label.style.position = 'absolute';
-        label.style.color = 'white';
-        label.style.backgroundColor = 'black';
-        label.style.padding = '10px';
-        label.innerHTML = `
-          <strong>${info.name}</strong><br>
-          ${info.magnitude}<br>
-          ${info.tipo}
-        `;
-        label.style.left = `${event.clientX}px`;
-        label.style.top = `${event.clientY}px`;
-        document.body.appendChild(label);
-  
-        // Quitar el label después de 3 segundos
-        setTimeout(() => {
-          label.remove();
-        }, 3000);
-      }
-    }
-  }
-
 const Animation = () => {
   const mountRef = useRef(null);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [neoInfo, setNeoInfo] = useState(null);
+
+  const onNeoSelected = (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+    // Actualizar el raycaster con la cámara y la posición del mouse
+    raycaster.setFromCamera(mouse, camera);
+  
+    // Recopilar todos los objetos en la escena
+    const objects = [];
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        objects.push(child);
+      }
+    });
+  
+    // Detectar intersecciones con los objetos en la escena
+    const intersects = raycaster.intersectObjects(objects);
+  
+    // Si hay intersección
+    if (intersects.length > 0) {
+        const clickedObject = intersects[0].object;
+  
+        // Obtener información del catálogo basada en el nombre del objeto
+        const info = objectCatalog[clickedObject.name];
+        // Crear un label o un popup con la información
+        if (info) {
+          setNeoInfo(info);
+          open();
+        }
+      }
+    }
 
   useEffect(() => {
     // Renderer
@@ -226,7 +214,20 @@ const Animation = () => {
     };
   }, []);
 
-  return <div ref={mountRef}></div>;
+  return (
+    <div ref={mountRef}>
+      <Modal opened={opened} onClose={close} title="Información del NEO">
+        {neoInfo && (
+          <div>
+            <strong>{neoInfo.name}</strong><br />
+            Magnitud: {neoInfo.magnitude}<br />
+            Tipo: {neoInfo.tipo}<br />
+            <img src={neoInfo.img} alt={neoInfo.name} style={{ width: '100%' }} />
+          </div>
+        )}
+      </Modal>
+    </div>
+  );
 };
 
 export default Animation;
