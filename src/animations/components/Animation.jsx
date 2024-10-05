@@ -45,7 +45,6 @@ const onNeoSelected = (event) => {
   // Si hay intersección
   if (intersects.length > 0) {
       const clickedObject = intersects[0].object;
-      console.log(intersects)
 
       // Obtener información del catálogo basada en el nombre del objeto
       const info = objectCatalog[clickedObject.name];
@@ -161,7 +160,7 @@ const Animation = () => {
       const planetObj = new THREE.Object3D();
       planet.position.set(x, 0, 0);
       planet.name = name;
-      console.log(planet)
+
       if (ring) {
         const ringGeo = new THREE.RingGeometry(ring.innerRadius, ring.outerRadius, 32);
         const ringMat = new THREE.MeshBasicMaterial({ map: ring.ringmat, side: THREE.DoubleSide });
