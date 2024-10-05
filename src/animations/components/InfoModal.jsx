@@ -26,5 +26,3 @@ const InfoModal = ({ opened, onClose,neoInfo}) => {
 };
 
 export default InfoModal;
-//pasar paraemtros del camera por props y el optionsRef y guiRef
-//Onclose modal 

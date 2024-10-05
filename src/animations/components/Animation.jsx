@@ -33,6 +33,7 @@ const Animation = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
+  // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
   const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
@@ -226,10 +227,12 @@ const Animation = () => {
     const gui = new GUI();
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
+   // gui.add(optionsRef.current, 'Test').onChange(e => {path_of_planets.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
     gui.add(optionsRef.current, 'speed', 0, maxSpeed ? maxSpeed : 20).onChange(value => {
       optionsRef.current.speed = value;
+ 
     });
 
     // Animation

@@ -1,10 +1,27 @@
-/* .modal-menu .mantine-Modal-header {
-    background-color: rebeccapurple;
+.modal-menu .mantine-Modal-header {
+    background-color: #181818;
+    color: white;
+
 }
 
-.modal-menu .mantine-Modal-content{
-    background-color: rebeccapurple;
-} */
-.modal-menu .mantine-Modal-inner{
+
+
+.modal-menu .mantine-Modal-content {
+    background-color: #181818;
+    color: white;
+    width: 200px;
+    height: 200px;
+    box-shadow:
+        0 0 25px #4666FF,
+        0 0 25px #0ff,
+        0 0 25px #0ff,
+        0 0 25px #0ff,
+        0 0 25px #0ff,
+        0 0 25px #0ff,
+        0 0 25px #0ff;
+
+}
+
+.modal-menu .mantine-Modal-inner {
     justify-content: flex-end !important;
 }
