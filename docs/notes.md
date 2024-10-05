@@ -1,3 +1,4 @@
+```javascript
 //import { sourceMapsEnabled } from 'process';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
@@ -132,3 +133,4 @@ function animate() {
 }
 
 animate();
+```
