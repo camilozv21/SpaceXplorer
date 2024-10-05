@@ -30,8 +30,12 @@ const Animation = () => {
   const mountRef = useRef(null);
   const [opened, { open, close }] = useDisclosure(false);
   const [neoInfo, setNeoInfo] = useState(null);
+  // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
+  const guiRef = useRef(null);
 
   const onNeoSelected = (event) => {
+    camera.position.set(0,0,0);
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -51,17 +55,35 @@ const Animation = () => {
 
     // Si hay intersección
     if (intersects.length > 0) {
-      const clickedObject = intersects[0].object;
-
-      // Obtener información del catálogo basada en el nombre del objeto
-      const info = objectCatalog[clickedObject.name];
-      // Crear un label o un popup con la información
-      if (info) {
-        setNeoInfo(info);
-        open();
+        const clickedObject = intersects[0].object;
+  
+        // Obtener información del catálogo basada en el nombre del objeto
+        const info = objectCatalog[clickedObject.name];
+        // Crear un label o un popup con la información
+        if (info) {
+          console.log(clickedObject)
+          
+          // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
+          optionsRef.current.speed = 0; // Detener el movimiento
+          if (guiRef.current) {
+            guiRef.current.__controllers.forEach(controller => {
+              if (controller.property === 'speed') {
+                controller.setValue(0);
+              }
+            });
+          }
+          camera.position.set(
+            clickedObject.position.x,
+            clickedObject.position.y + clickedObject.geometry.parameters.radius + 10,
+            clickedObject.position.z
+          );
+          // Orientar la cámara hacia el planeta seleccionado
+          camera.lookAt(clickedObject.position);
+          setNeoInfo(info);
+          // open();
+        }
       }
     }
-  }
 
   useEffect(() => {
     // Renderer
@@ -75,6 +97,7 @@ const Animation = () => {
     // Camera
     // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(-50, 90, 150);
+    // camera.position.set(0,0,50);
 
     // Controls
     const orbit = new OrbitControls(camera, renderer.domElement);
@@ -177,18 +200,20 @@ const Animation = () => {
 
     // GUI
     const gui = new GUI();
-    const options = { 'Real view': true, 'Show path': true, speed: 1 };
-    gui.add(options, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
-    gui.add(options, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
+    guiRef.current = gui;
+    gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
+    gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
-    gui.add(options, 'speed', 0, maxSpeed ? maxSpeed : 20);
+    gui.add(optionsRef.current, 'speed', 0, maxSpeed ? maxSpeed : 20).onChange(value => {
+      optionsRef.current.speed = value;
+    });
 
     // Animation
     const animate = time => {
-      sun.rotateY(options.speed * 0.004);
+      sun.rotateY(optionsRef.current.speed * 0.004);
       planets.forEach(({ planetObj, planet, rotaing_speed_around_sun, self_rotation_speed }) => {
-        planetObj.rotateY(options.speed * rotaing_speed_around_sun);
-        planet.rotateY(options.speed * self_rotation_speed);
+        planetObj.rotateY(optionsRef.current.speed * rotaing_speed_around_sun);
+        planet.rotateY(optionsRef.current.speed * self_rotation_speed);
       });
       renderer.render(scene, camera);
     };
@@ -213,6 +238,12 @@ const Animation = () => {
       mountRef.current.removeChild(renderer.domElement);
     };
   }, []);
+
+  // useEffect(() => {
+  //   // if (options.speed === 0) {
+  //     setOptions((prevOptions) => ({ ...prevOptions, speed: 0 }));
+  //   // }
+  // }, [options.speed]);
 
   return (
     <div ref={mountRef}>
