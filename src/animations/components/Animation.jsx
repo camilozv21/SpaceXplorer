@@ -146,15 +146,19 @@ const Animation = () => {
     if (child.isMesh) {
       if (type === 'All') {
         child.visible = true;
+        toggleLabels(true);
       } else {
         const info = objectCatalog[child.name];
         const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
 
         if (info && info.type === type) {
           child.visible = true;
+          toggleLabels(true);
         } else if (neoData && neoData.data.orbit_class_type === type) {
           child.visible = true;
+          toggleLabels(true);
         } else {
+          toggleLabels(false);
           child.visible = false;
         }
       }
