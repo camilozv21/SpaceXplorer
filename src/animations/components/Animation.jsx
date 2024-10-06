@@ -19,6 +19,7 @@ import uranusRingImg from '../constants/images/uranus_ring.png';
 import { objectCatalog } from '../constants/objectCatalog';
 import { useDisclosure } from '@mantine/hooks';
 import InfoModal from './InfoModal';
+import { cameraPosition } from 'three/webgpu';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -34,7 +35,8 @@ const Animation = () => {
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
   // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
-  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, speed: 1, 'Celestial type': 'All' });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Test':true, speed: 1, 'Celestial type': 'All' });
+  //const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
   const onCloseModal = () => {
@@ -88,21 +90,38 @@ const Animation = () => {
       const info = objectCatalog[clickedObject.name];
 
 
-      // Obtener coordenadas globales del objeto clicado
-      const worldPosition = new THREE.Vector3();
-      clickedObject.getWorldPosition(worldPosition);
+    // Obtener coordenadas globales del objeto clicado
+    const worldPosition = new THREE.Vector3();
+    //Variable de control para velocidad de transición
+    const transitionSpeed = 0.01; 
+    clickedObject.geometry.parameters.radius + 10
+    clickedObject.getWorldPosition(worldPosition);
 
       // Crear un label o un popup con la información
       if (info) {
 
-        // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
-        optionsRef.current.speed = 0; // Detener el movimiento
-        if (guiRef.current) {
-          guiRef.current.__controllers.forEach(controller => {
-            if (controller.property === 'speed') {
-              controller.setValue(0);
-            }
-          });
+        // Crear un label o un popup con la información
+        if (info) {
+          
+          // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
+          optionsRef.current.speed = 0; // Detener el movimiento
+          if (guiRef.current) {
+            guiRef.current.__controllers.forEach(controller => {
+              if (controller.property === 'speed') {
+                controller.setValue(0);
+              }
+            });
+          }
+          
+          camera.position.set(
+            worldPosition.x,
+            clickedObject.geometry.parameters.radius + 10,
+            worldPosition.z,
+          );
+          // Orientar la cámara hacia el planeta seleccionado
+          camera.lookAt(worldPosition);
+          setNeoInfo(info);
+          open();
         }
 
         toggleLabels(false);
@@ -281,6 +300,116 @@ const Animation = () => {
       return { planetObj, planet, labelSprite };
     };
 
+    // Función para crear un asteroide con una forma deformada
+function createDeformedAsteroid(size) {
+  const geometry = new THREE.SphereGeometry(size, 8, 8); // menor resolución para deformar
+  const asteroidmaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
+  const material = asteroidmaterial;
+
+  // Deformar el objeto (puedes modificar los valores de la escala)
+  const asteroid = new THREE.Mesh(geometry, material);
+  asteroid.scale.set(
+      1 + Math.random() * 0.3, // Deformación aleatoria en el eje x
+      1 + Math.random() * 0.3, // Deformación aleatoria en el eje y
+      1 + Math.random() * 0.3  // Deformación aleatoria en el eje z
+  );
+
+  return asteroid;
+}
+
+// Crear 10 NEOs
+const neoCount = 7;
+const neos = [];
+const path_of_neos = []
+
+for (let i = 0; i < neoCount; i++) {
+  const neo = createDeformedAsteroid(1); // Tamaño del NEO
+  // Generar un radio de órbita aleatorio
+  const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
+  const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
+
+  // Asignar la posición inicial en su órbita circular
+  neo.position.x = neoOrbitRadius * Math.cos(angleOffset);
+  neo.position.z = neoOrbitRadius * Math.sin(angleOffset);
+  
+  // Guardar el radio de órbita y el desfase angular en el NEO
+  neo.neoOrbitRadius = neoOrbitRadius;
+  neo.angleOffset = angleOffset;
+  createNEOOrbit(neo);
+ 
+  neos.push(neo); // Guardar el NEO en el array
+  scene.add(neo); // Añadir el NEO a la escena
+
+
+}
+
+
+        // Create NEO Orbit
+        function createNEOOrbit(neo) {
+ 
+          const radius = neo.neoOrbitRadius;
+          const color = 0xff0000; // Color of the orbit
+          const width = 3 ; // Width of the orbit line
+
+          const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
+          const geometry = new THREE.BufferGeometry();
+          const lineLoopPoints = [];
+          const numSegments = 100; // Puedes ajustar este valor si es necesario
+          // Generate points for the elliptical orbit
+          for (let i = 0; i < Math.min(numSegments, 100); i++) {
+
+            const angle = (i / numSegments) * Math.PI * 2;
+              // Define semi-axes of the ellipse
+              const semiMajorAxis = radius; // Semi-major axis
+              const semiMinorAxis = radius * 0.6; // Semi-minor axis
+
+              // Calculate the new position in the elliptical orbit
+              const x = semiMajorAxis * Math.cos(angle);
+              const z = semiMinorAxis * Math.sin(angle); // Inverted z for clockwise orbit
+            
+              lineLoopPoints.push(x, 0, z);
+            }
+
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(lineLoopPoints, 3));
+          const lineLoop = new THREE.LineLoop(geometry, material);
+          console.log(lineLoopPoints.length);
+          scene.add(lineLoop);
+          path_of_neos.push(lineLoop);
+      }
+
+
+// Función para animar los asteroides
+const animateAsteroids = () => {
+  // neos.forEach((neo) => {
+
+  //   // Actualizar la posición del NEO para que gire alrededor del sol
+  //   neo.angleOffset += 0.01;  // Aumentamos el ángulo pero ajustaremos la dirección con coseno y seno
+  //   // Invertir el sentido de la rotación cambiando el signo del seno
+  //   neo.position.x = neo.neoOrbitRadius * Math.cos(neo.angleOffset);
+  //   neo.position.z = neo.neoOrbitRadius * -Math.sin(neo.angleOffset);  // Cambiar el signo aquí para rotación inversa
+    
+  //   // Rotación del asteroide sobre su propio eje
+  //   neo.rotation.x += 0.01; // Rotación en el eje X
+  //   neo.rotation.y += 0.01; // Rotación en el eje Y
+  //   neo.rotation.z += 0.01; // Rotación en el eje Z
+  // });
+  neos.forEach((neo) => {
+    neo.angleOffset += 0.01;  // Avanzar el ángulo para la animación
+    
+    // Definir semi-ejes de la elipse
+    const semiMajorAxis = neo.neoOrbitRadius; // Semi-eje mayor
+    const semiMinorAxis = neo.neoOrbitRadius * 0.6; // Semi-eje menor (más pequeño que el mayor)
+
+    // Calcular la nueva posición elíptica
+    neo.position.x = semiMajorAxis * Math.cos(neo.angleOffset);
+    neo.position.z = semiMinorAxis * -Math.sin(neo.angleOffset); // Órbita elíptica en eje z
+
+    // Aquí podrías también cambiar el eje y para una órbita inclinada si es necesario
+  });
+  
+};
+
+
     const planets = [
       { ...genratePlanet('Planet', 'mercury', 3.2, mercuryTexture, 28), rotaing_speed_around_sun: 0.004, self_rotation_speed: 0.004 },
       { ...genratePlanet('Planet', 'venus', 5.8, venusTexture, 44), rotaing_speed_around_sun: 0.015, self_rotation_speed: 0.002 },
@@ -299,6 +428,7 @@ const Animation = () => {
     const gui = new GUI();
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
+    gui.add(optionsRef.current, 'Test').onChange(e => {path_of_neos.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     gui.add(optionsRef.current, 'Show labels').onChange(e => { toggleLabels(e); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
@@ -324,6 +454,8 @@ const Animation = () => {
         labelSprite.position.y += 15;
         //labelSprite.position.x += 10;
       });
+
+      animateAsteroids();
 
       renderer.render(scene, camera);
 
