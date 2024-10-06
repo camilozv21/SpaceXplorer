@@ -135,7 +135,7 @@
                   "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
-                          "close_approach_date": "45264648.3656269134",
+                          "close_approach_date": "2025-08-17",
                           "kilometers_per_second": "72846390.916095843",
                           "miss_distance": {
                               "astronomical": "0.4869480489",

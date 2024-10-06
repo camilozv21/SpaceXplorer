@@ -106,7 +106,7 @@ const InfoModal = ({ opened, onClose, neoInfo }) => {
           <div className='list-card-container'>
             Orbit class description: {selectedObject.data.orbit_class_description}{' '}
           </div>
-          {selectedObject.data.close_approach_data && selectedObject.data.close_approach_data.length > 0 && (
+          {selectedObject.data?.close_approach_data && (
             <>
               <div className='list-card-container'>
                 <IconCalendar stroke={2} color='#ff00ff' /> Close approach date: {selectedObject.data.close_approach_data[0].close_approach_date}{' '}
@@ -123,7 +123,11 @@ const InfoModal = ({ opened, onClose, neoInfo }) => {
             </>
           )}
           <div>
-            <Button color='#00dbe3' autoContrast fullWidth><IconDownload stroke={2} /> Download STL</Button>
+          <a href="https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true" download>
+              <Button color='#00dbe3' autoContrast fullWidth>
+                <IconDownload stroke={2} /> Download STL
+              </Button>
+            </a>
           </div>
         </>
       )}
