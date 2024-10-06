@@ -112,7 +112,7 @@ const Animation = () => {
           clickedObject.geometry.parameters.radius + 10,
           worldPosition.z,
         );
-        // Orientar la cámara hacia el planeta seleccionado
+        // Orientar la cámara hacia el Planet seleccionado
         camera.lookAt(worldPosition);
         setNeoInfo(info);
         open();
@@ -250,7 +250,7 @@ const Animation = () => {
     };
     
 
-    // Generate planets  //Crear que el planeta tenga una etiqueta al momento de que se renderiza. 
+    // Generate planets  //Crear que el Planet tenga una etiqueta al momento de que se renderiza. 
     const genratePlanet = (type, name, size, planetTexture, x, ring) => {
 
       const planetGeometry = new THREE.SphereGeometry(size, 50, 50);
@@ -293,7 +293,7 @@ const Animation = () => {
       { ...genratePlanet('Planet', 'pluto', 2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
     ];
 
-    const celestialTypes = ['All', 'Planeta', 'Estrella', 'Moon']; // Lista de tipos de cuerpos celestes
+    const celestialTypes = ['All','Apollo','Amor','Asteroid','Mars-Crossing Asteroid','Main-Belt Asteroid','TransNeptunian Object', 'Planet', 'Star', 'Moon']; // Lista de tipos de cuerpos celestes
 
     // GUI
     const gui = new GUI();
