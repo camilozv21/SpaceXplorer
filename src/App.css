@@ -1,14 +1,14 @@
 .modal-menu .mantine-Modal-header {
     background-color: #181818;
     color: white;
-
+    display: none;
 }
 
 .modal-menu .mantine-Modal-content {
     background-color: #181818;
     color: white;
     width: 200px;
-    height: 200px;
+    /* height: 200px; */
     box-shadow:
         0 0 25px #4666FF,
         0 0 25px #0ff,
@@ -22,4 +22,34 @@
 
 .modal-menu .mantine-Modal-inner {
     justify-content: flex-start;
+    opacity: 0.9;
+}
+
+.title-card {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    
+    h1 {
+        margin: 0;
+    }
+    
+}
+
+.close-button-modal {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-top: 1rem;
+}
+
+.list-card-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 0.5rem;
+    font-size: 18px;
 }
