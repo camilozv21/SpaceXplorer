@@ -4,6 +4,7 @@ import { AspectRatio, Button, Divider, Image, Overlay } from '@mantine/core'
 import { Link } from 'react-router-dom'
 import logo from '../constants/images/logo.png'
 import video from '../constants/images/companyvideo.gif'
+import grupo from "../constants/images/group.png"
 
 export const Landing = () => {
   return (
@@ -26,6 +27,11 @@ export const Landing = () => {
                 <div className='content-image'>
                     <img src={video} />
                     <Link to={'/solar-system'} id='live-demo-button'>Live Demo</Link>
+                </div>
+            </section>
+            <section>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                    <img src={grupo} alt="grupo" className='image-grupo' />
                 </div>
             </section>
         </main>
