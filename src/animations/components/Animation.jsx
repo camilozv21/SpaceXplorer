@@ -16,6 +16,7 @@ import neptuneImg from '../constants/images/neptune.jpg';
 import plutoImg from '../constants/images/pluto.jpg';
 import saturnRingImg from '../constants/images/saturn_ring.png';
 import uranusRingImg from '../constants/images/uranus_ring.png';
+import asteroidImg from '../constants/images/asteroid.jpg'; 
 import { objectCatalog } from '../constants/objectCatalog';
 import { useDisclosure } from '@mantine/hooks';
 import InfoModal from './InfoModal';
@@ -36,7 +37,7 @@ const Animation = () => {
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
   // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
-  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Test':true, speed: 1, 'Celestial type': 'All' });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Show NEO Orbit':true, speed: 1, 'Celestial type': 'All' });
   //const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
@@ -197,6 +198,7 @@ const Animation = () => {
     const plutoTexture = textureLoader.load(plutoImg);
     const saturnRingTexture = textureLoader.load(saturnRingImg);
     const uranusRingTexture = textureLoader.load(uranusRingImg);
+    const asteroidTexture = textureLoader.load(asteroidImg);
 
     // Background
     const cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -303,7 +305,7 @@ const Animation = () => {
     // Función para crear un asteroide con una forma deformada
 function createDeformedAsteroid(size, name) {
   const geometry = new THREE.SphereGeometry(size, 8, 8); // menor resolución para deformar
-  const asteroidmaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
+  const asteroidmaterial = new THREE.MeshBasicMaterial({ map: asteroidTexture });
   const material = asteroidmaterial;
 
   // Deformar el objeto (puedes modificar los valores de la escala)
@@ -429,7 +431,7 @@ const animateAsteroids = () => {
     const gui = new GUI();
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
-    gui.add(optionsRef.current, 'Test').onChange(e => {path_of_neos.forEach(dpath => { dpath.visible = e; }) });
+    gui.add(optionsRef.current, 'Show NEO Orbit').onChange(e => {path_of_neos.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     gui.add(optionsRef.current, 'Show labels').onChange(e => { toggleLabels(e); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
