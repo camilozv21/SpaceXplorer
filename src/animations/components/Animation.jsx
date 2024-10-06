@@ -364,11 +364,12 @@ const Animation = () => {
     const neos = [];
     const path_of_neos = []
 
-    for (let i = 0; i < neoCount; i++) {
-      const neo = createDeformedAsteroid(1, data.near_earth_objects[i].data.name); // Tamaño del NEO
-      // Generar un radio de órbita aleatorio
-      const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
-      const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
+for (let i = 0; i < neoCount; i++) {
+  let neo = createDeformedAsteroid(1, data.near_earth_objects[i].data.name); // Tamaño del NEO
+  neo.is_potentially_hazardous_asteroid = data.near_earth_objects[i].data.is_potentially_hazardous_asteroid;
+  // Generar un radio de órbita aleatorio
+  const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
+  const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
 
       // Asignar la posición inicial en su órbita circular
       neo.position.x = neoOrbitRadius * Math.cos(angleOffset);
@@ -390,8 +391,8 @@ const Animation = () => {
     function createNEOOrbit(neo) {
 
       const radius = neo.neoOrbitRadius;
-      const color = 0xff0000; // Color of the orbit
-      const width = 3; // Width of the orbit line
+      const color = neo.is_potentially_hazardous_asteroid ? 0xff0000 : 0x0000ff; // Color of the orbit
+      const width = 3 ; // Width of the orbit line
 
       const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
       const geometry = new THREE.BufferGeometry();
