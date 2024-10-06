@@ -169,25 +169,35 @@ const Animation = () => {
 
   const filterObjectType = (type) => {
     scene.traverse((child) => {
-    if (child.isMesh) {
-      if (type === 'All') {
-        child.visible = true;
-      } else {
-        const info = objectCatalog[child.name];
-        const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
-
-        if (info && info.type === type) {
+      if (child.isMesh) {
+        if (type === 'All') {
           child.visible = true;
-        } else if (neoData && neoData.data.orbit_class_type === type) {
-          child.visible = true;
+        } else if (type === "PHA'S") {
+          const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
+          if (neoData && neoData.data.is_potentially_hazardous_asteroid) {
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
+        } else if (type === "NEO'S") {
+          const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
+          if (neoData) {
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
         } else {
-          child.visible = false;
+          const info = objectCatalog[child.name];
+          if (info && info.type === type) {
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
         }
       }
-    }
-  });
-
+    });
   };
+  
 
   const toggleLabels = (showLabels) => {
     scene.traverse((child) => {

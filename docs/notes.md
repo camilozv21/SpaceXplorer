@@ -58,7 +58,7 @@ const objectCatalog = {
       tipo: "NEO",
     },
     sun: {
-      name: "Sol",
+      name: "Sun",
       magnitude: "-100",
       tipo: "Estrella",
     }
