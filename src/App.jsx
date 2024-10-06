@@ -6,6 +6,7 @@ import '@mantine/notifications/styles.css';
 import { Notifications, showNotification } from '@mantine/notifications';
 import { useEffect } from 'react';
 import { IconComet } from '@tabler/icons-react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 function App() {
@@ -23,10 +24,15 @@ function App() {
 
   return (
     <>
-    <MantineProvider>
-      <Animation />
-      <Notifications position='top-center' withBorder  />
-    </MantineProvider>
+    <BrowserRouter>
+      <Routes>
+        <MantineProvider>
+          <Route path='/' element={<div>hola</div>} />
+          <Route path='/solar-system' element={<Animation />} />
+          <Notifications position='top-center' withBorder  />
+        </MantineProvider>
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }
