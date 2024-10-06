@@ -252,7 +252,256 @@ animate();
           }
         }
       }
-    }
+    },
+    {
+            "id": "2001980",
+            "data": {
+                "name": "1980 Tezcatlipoca (1950 LA)",
+                "absolute_magnitude_h": 13.85,
+                "estimated_diameter": 4.5139316282,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "1921-11-16",
+                "orbit_class_type": "AMO",
+                "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "45264648.3656269134",
+                        "kilometers_per_second": "72846390.916095843",
+                        "miss_distance": {
+                            "astronomical": "0.4869480489",
+                            "lunar": "189.4227910221",
+                            "kilometers": "72846390.916095843",
+                            "miles": "45264648.3656269134"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001943",
+            "data": {
+                "name": "1943 Anteros (1973 EC)",
+                "absolute_magnitude_h": 15.7,
+                "estimated_diameter": 1.9255507819,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "AMO",
+                "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2026-05-30",
+                        "kilometers_per_second": "26606.9271062251",
+                        "miss_distance": {
+                            "astronomical": "0.1321633951",
+                            "lunar": "51.4115606939",
+                            "kilometers": "19771362.398928437",
+                            "miles": "12285354.9152169506"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001917",
+            "data": {
+                "name": "1917 Cuyo (1968 AA)",
+                "absolute_magnitude_h": 14.41,
+                "estimated_diameter": 3.4878273316,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "AMO",
+                "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2030-10-06",
+                        "kilometers_per_second": "52009.9329374478",
+                        "miss_distance": {
+                            "astronomical": "0.0896649147",
+                            "lunar": "34.8796518183",
+                            "kilometers": "13413680.252851689",
+                            "miles": "8334874.4158597482"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001916",
+            "data": {
+                "name": "1916 Boreas (1953 RA)",
+                "absolute_magnitude_h": 14.95,
+                "estimated_diameter": 2.7199127735,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "AMO",
+                "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2025-08-26",
+                        "kilometers_per_second": "25778.9286745999",
+                        "miss_distance": {
+                            "astronomical": "0.385315971",
+                            "lunar": "149.887912719",
+                            "kilometers": "57642448.53858177",
+                            "miles": "35817356.648977626"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001915",
+            "data": {
+                "name": "1915 Quetzalcoatl (1953 EA)",
+                "absolute_magnitude_h": 18.38,
+                "estimated_diameter": 0.5604733623,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "AMO",
+                "orbit_class_description": "ear-Earth asteroid orbits similar to that of 1221 Amor",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2058-02-07",
+                        "kilometers_per_second": "57074.4757152738",
+                        "miss_distance": {
+                            "astronomical": "0.3647049278",
+                            "lunar": "141.8702169142",
+                            "kilometers": "54559080.377383786",
+                            "miles": "33901440.5158208068"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001866",
+            "data": {
+                "name": "1866 Sisyphus (1972 XA)",
+                "absolute_magnitude_h": 12.52,
+                "estimated_diameter": 8.3282734552,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "APO",
+                "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2032-06-15",
+                        "kilometers_per_second": "78754.875058724",
+                        "miss_distance": {
+                            "astronomical": "0.4584634339",
+                            "lunar": "178.3422757871",
+                            "kilometers": "68585153.184325793",
+                            "miles": "42616838.0197022234"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001865",
+            "data": {
+                "name": "1865 Cerberus (1971 UA)",
+                "absolute_magnitude_h": 16.79,
+                "estimated_diameter": 1.1656145947,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "APO",
+                "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2025-11-11",
+                        "kilometers_per_second": "101187.1911775957",
+                        "miss_distance": {
+                            "astronomical": "0.4537672545",
+                            "lunar": "176.5154620005",
+                            "kilometers": "67882614.748947915",
+                            "miles": "42180300.878454627"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001864",
+            "data": {
+                "name": "1864 Daedalus (1971 FA)",
+                "absolute_magnitude_h": 14.86,
+                "estimated_diameter": 14.86,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "APO",
+                "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2031-09-22",
+                        "kilometers_per_second": "84641.3306320086",
+                        "miss_distance": {
+                            "astronomical": "0.4167747344",
+                            "lunar": "162.1253716816",
+                            "kilometers": "62348612.536055728",
+                            "miles": "38741631.3565879264"
+                        }
+                    }
+                ]
+            }
+        },        {
+            "id": "2001863",
+            "data": {
+                "name": "1863 Antinous (1948 EA)",
+                "absolute_magnitude_h": 15.45,
+                "estimated_diameter": 2.160503512,
+                "is_potentially_hazardous_asteroid": false,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "APO",
+                "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2033-03-23",
+                        "kilometers_per_second": "81546.7490258821",
+                        "miss_distance": {
+                            "astronomical": "0.306334402",
+                            "lunar": "119.164082378",
+                            "kilometers": "45826974.04692374",
+                            "miles": "28475561.243438012"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2001862",
+            "data": {
+                "name": "1862 Apollo (1932 HA)",
+                "absolute_magnitude_h": 16.08,
+                "estimated_diameter": 1.6164228334,
+                "is_potentially_hazardous_asteroid": true,
+                "orbiting_body": "Earth",
+                "first_observation_date": "undefined",
+                "orbit_class_type": "APO",
+                "orbit_class_description": "ear-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2030-10-04",
+                        "kilometers_per_second": "45745.592569574",
+                        "miss_distance": {
+                            "astronomical": "0.2793585493",
+                            "lunar": "108.6704756777",
+                            "kilometers": "41791443.941569991",
+                            "miles": "25967999.1131722358"
+                        }
+                    }
+                ]
+            }
+        },
   ]
 }
 ```
