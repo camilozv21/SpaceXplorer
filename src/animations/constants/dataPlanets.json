@@ -4,15 +4,18 @@
             "id": "SUN",
             "data": {
                 "name": "Sol",
+                "type": "Star",
                 "absolute_magnitude_h": 4.83,
                 "estimated_diameter": 13927000.000,
-                "gravity": 3.7, 
+                "gravity": 3.7,
                 "density": 1408,
                 "orbiting_body": "-",
+                "surface_temperature": "-",
+                "number_of_moons": 0,
+                "albedo": "-",
                 "first_observation_date": "Prehistoric",
                 "orbit_class_type": "-",
-                "orbit_class_description": "",
-                "albedo": "-"
+                "orbit_class_description": ""
             }
         },
         {
@@ -20,14 +23,17 @@
             "data": {
                 "name": "Mercurio",
                 "type": "Terrestrial",
+                "absolute_magnitude_h": "-0.42",
                 "estimated_diameter": 4879.0000,
+                "gravity": 3.7,
+                "density": 5427,
                 "orbiting_body": "Sun",
                 "surface_temperature": "min: -173°, max: 427°",
-                "density": 5427,
-                "gravity": 3.7, 
                 "number_of_moons": 0,
                 "albedo": 0.12,
-                "first_observation_date": "14th century BC"
+                "first_observation_date": "14th century BC",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -35,14 +41,17 @@
             "data": {
                 "name": "Venus",
                 "type": "Terrestrial",
+                "absolute_magnitude_h": "-4.89",
                 "estimated_diameter": 12104.000,
+                "gravity": 8.87,
+                "density": 5243,
                 "orbiting_body": "Sun",
                 "surface_temperature": "min -45.15 °C, max 499.85 °C",
-                "density": 5243,
-                "gravity": 8.87 , 
                 "number_of_moons": 0,
                 "albedo": 0.65,
-                "first_observation_date": "17th century BC"
+                "first_observation_date": "17th century BC",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -50,14 +59,17 @@
             "data": {
                 "name": "Tierra",
                 "type": "Terrestrial",
+                "absolute_magnitude_h": "-3.99",
                 "estimated_diameter": 12742.000,
+                "gravity": 9.807,
+                "density": 5514,
                 "orbiting_body": "Sun",
                 "surface_temperature": "min -89.15 °C, max 56.7 °C",
-                "density": 5514,
-                "gravity": 9.807, 
                 "number_of_moons": 1,
                 "albedo": 0.306,
-                "first_observation_date": "Prehistoric"
+                "first_observation_date": "Prehistoric",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -65,14 +77,17 @@
             "data": {
                 "name": "Marte",
                 "type": "Terrestrial",
+                "absolute_magnitude_h": "-1.52",
                 "estimated_diameter": 6779.000,
+                "gravity": 3.721,
+                "density": 3933,
                 "orbiting_body": "Sun",
                 "surface_temperature": "min -125 °C, max 20 °C",
-                "density": 3933,
-                "gravity": 3.721, 
                 "number_of_moons": 2,
                 "albedo": 0.306,
-                "first_observation_date": "2nd millennium BC"
+                "first_observation_date": "2nd millennium BC",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -80,14 +95,17 @@
             "data": {
                 "name": "Júpiter",
                 "type": "Gaseous",
+                "absolute_magnitude_h": "-2.94",
                 "estimated_diameter": 139822.000,
+                "gravity": 24.79,
+                "density": 1326,
                 "orbiting_body": "Sun",
                 "surface_temperature": "min -145 °C, max 24000 °C",
-                "density": 1326,
-                "gravity": 24.79, 
                 "number_of_moons": 80,
                 "albedo": 0.520,
-                "first_observation_date": "7th or 8th century BC"
+                "first_observation_date": "7th or 8th century BC",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -95,14 +113,17 @@
             "data": {
                 "name": "Saturno",
                 "type": "Gaseous",
+                "absolute_magnitude_h": "-0.49",
                 "estimated_diameter": 116464.000,
-                "orbiting_body": "Sun",
-                "surface_temperature": "min -178 °C, max 11700  °C",
+                "gravity": 10.44,
                 "density": 687,
-                "gravity": 10.44 , 
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -178 °C, max 11700 °C",
                 "number_of_moons": 83,
                 "albedo": 0.470,
-                "first_observation_date": "8th century BC"
+                "first_observation_date": "8th century BC",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -110,14 +131,17 @@
             "data": {
                 "name": "Urano",
                 "type": "Gaseous",
+                "absolute_magnitude_h": "5.32",
                 "estimated_diameter": 50724.000,
-                "orbiting_body": "Sun",
-                "surface_temperature": " -205,2 °C, max -218  °C",
+                "gravity": 8.69,
                 "density": 1270,
-                "gravity": 8.69, 
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -205.2 °C, max -218 °C",
                 "number_of_moons": 27,
                 "albedo": 0.51,
-                "first_observation_date": "March 13, 1781"
+                "first_observation_date": "March 13, 1781",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         },
         {
@@ -125,14 +149,35 @@
             "data": {
                 "name": "Neptuno",
                 "type": "Gaseous",
+                "absolute_magnitude_h": "7.78",
                 "estimated_diameter": 49244.000,
-                "orbiting_body": "Sun",
-                "surface_temperature": " -217 °C, max  -220 °C",
+                "gravity": 11.15,
                 "density": 1638,
-                "gravity": 11.15, 
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -217 °C, max -220 °C",
                 "number_of_moons": 14,
                 "albedo": 0.41,
-                "first_observation_date": "September 23, 1846"
+                "first_observation_date": "September 23, 1846",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
+            }
+        },
+        {
+            "id": "PLUTO",
+            "data": {
+                "name": "Plutón",
+                "type": "Terrestrial",
+                "absolute_magnitude_h": "13.65",
+                "estimated_diameter": 2376.600,
+                "gravity": 0.62,
+                "density": 1850,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -229 °C, max -223 °C",
+                "number_of_moons": 5,
+                "albedo": 0.52,
+                "first_observation_date": "February 18, 1930",
+                "orbit_class_type": "-",
+                "orbit_class_description": "-"
             }
         }
     ]
