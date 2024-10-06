@@ -16,12 +16,13 @@ import neptuneImg from '../constants/images/neptune.jpg';
 import plutoImg from '../constants/images/pluto.jpg';
 import saturnRingImg from '../constants/images/saturn_ring.png';
 import uranusRingImg from '../constants/images/uranus_ring.png';
-import asteroidImg from '../constants/images/asteroid.jpg'; 
+import asteroidImg from '../constants/images/asteroid.jpg';
 import { objectCatalog } from '../constants/objectCatalog';
 import { useDisclosure } from '@mantine/hooks';
 import InfoModal from './InfoModal';
 import { cameraPosition } from 'three/webgpu';
 import data from '../constants/data.json';
+import dataPlanets from '../constants/dataPlanets.json';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -37,7 +38,7 @@ const Animation = () => {
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
   // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
-  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Show NEO Orbit':true, speed: 1, 'Celestial type': 'All' });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Show NEO Orbit': true, speed: 1, 'Orbit type': 'All','Object type':'All' });
   //const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
 
@@ -91,19 +92,19 @@ const Animation = () => {
       // Obtener información del catálogo basada en el nombre del objeto
       const info = objectCatalog[clickedObject.name] ? objectCatalog[clickedObject.name] : data.near_earth_objects.find(obj => obj.data.name === clickedObject.name);
 
-    // Obtener coordenadas globales del objeto clicado
-    const worldPosition = new THREE.Vector3();
-    //Variable de control para velocidad de transición
-    const transitionSpeed = 0.01; 
-    clickedObject.geometry.parameters.radius + 10
-    clickedObject.getWorldPosition(worldPosition);
+      // Obtener coordenadas globales del objeto clicado
+      const worldPosition = new THREE.Vector3();
+      //Variable de control para velocidad de transición
+      const transitionSpeed = 0.01;
+      clickedObject.geometry.parameters.radius + 10
+      clickedObject.getWorldPosition(worldPosition);
 
       // Crear un label o un popup con la información
       if (info) {
 
         // Crear un label o un popup con la información
         if (info) {
-          
+
           // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
           optionsRef.current.speed = 0; // Detener el movimiento
           if (guiRef.current) {
@@ -113,7 +114,7 @@ const Animation = () => {
               }
             });
           }
-          
+
           camera.position.set(
             worldPosition.x,
             clickedObject.geometry.parameters.radius + 10,
@@ -140,21 +141,48 @@ const Animation = () => {
     }
   }
 
-  const filterCelestialBodies = (type) => {
+  const filterOrbitType = (type) => {
     scene.traverse((child) => {
-      if (child.isMesh) {
-        if (type === 'All') {
+    if (child.isMesh) {
+      if (type === 'All') {
+        child.visible = true;
+      } else {
+        const info = objectCatalog[child.name];
+        const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
+
+        if (info && info.type === type) {
+          child.visible = true;
+        } else if (neoData && neoData.data.orbit_class_type === type) {
           child.visible = true;
         } else {
-          const info = objectCatalog[child.name];
-          if (info && info.type === type) {
-            child.visible = true;
-          } else {
-            child.visible = false;
-          }
+          child.visible = false;
         }
       }
-    });
+    }
+  });
+
+  };
+
+  const filterObjectType = (type) => {
+    scene.traverse((child) => {
+    if (child.isMesh) {
+      if (type === 'All') {
+        child.visible = true;
+      } else {
+        const info = objectCatalog[child.name];
+        const neoData = data.near_earth_objects.find(obj => obj.data.name === child.name);
+
+        if (info && info.type === type) {
+          child.visible = true;
+        } else if (neoData && neoData.data.orbit_class_type === type) {
+          child.visible = true;
+        } else {
+          child.visible = false;
+        }
+      }
+    }
+  });
+
   };
 
   const toggleLabels = (showLabels) => {
@@ -248,28 +276,28 @@ const Animation = () => {
 
     const createLabel = (name, position) => {
       const canvas = document.createElement('canvas');
-      canvas.width = 400 ;  // Set canvas width before drawing anything
+      canvas.width = 400;  // Set canvas width before drawing anything
       canvas.height = 128;
       const context = canvas.getContext('2d');
 
       context.fillStyle = 'transparent';  // Set the background color
       context.fillRect(0, 0, canvas.width, canvas.height);
-    
+
       context.font = 'bold 100px Arial';  // Set font properties after canvas width
       context.fillStyle = 'white';
       context.fillText(name, 20, 64);  // Draw the name on the canvas at a visible position
-    
+
       const texture = new THREE.Texture(canvas);
       texture.needsUpdate = true;
-    
+
       const labelMaterial = new THREE.SpriteMaterial({ map: texture });
       const labelSprite = new THREE.Sprite(labelMaterial);
       labelSprite.scale.set(10, 5, 1);  // Adjust size as necessary
       labelSprite.position.copy(position);  // Set position to match the planet
-    
+
       return labelSprite;
     };
-    
+
 
     // Generate planets  //Crear que el Planet tenga una etiqueta al momento de que se renderiza. 
     const genratePlanet = (type, name, size, planetTexture, x, ring) => {
@@ -303,114 +331,114 @@ const Animation = () => {
     };
 
     // Función para crear un asteroide con una forma deformada
-function createDeformedAsteroid(size, name) {
-  const geometry = new THREE.SphereGeometry(size, 8, 8); // menor resolución para deformar
-  const asteroidmaterial = new THREE.MeshBasicMaterial({ map: asteroidTexture });
-  const material = asteroidmaterial;
+    function createDeformedAsteroid(size, name) {
+      const geometry = new THREE.SphereGeometry(size, 8, 8); // menor resolución para deformar
+      const asteroidmaterial = new THREE.MeshBasicMaterial({ map: asteroidTexture });
+      const material = asteroidmaterial;
 
-  // Deformar el objeto (puedes modificar los valores de la escala)
-  const asteroid = new THREE.Mesh(geometry, material);
-  asteroid.scale.set(
-      1 + Math.random() * 0.3, // Deformación aleatoria en el eje x
-      1 + Math.random() * 0.3, // Deformación aleatoria en el eje y
-      1 + Math.random() * 0.3  // Deformación aleatoria en el eje z
-  );
+      // Deformar el objeto (puedes modificar los valores de la escala)
+      const asteroid = new THREE.Mesh(geometry, material);
+      asteroid.scale.set(
+        1 + Math.random() * 0.3, // Deformación aleatoria en el eje x
+        1 + Math.random() * 0.3, // Deformación aleatoria en el eje y
+        1 + Math.random() * 0.3  // Deformación aleatoria en el eje z
+      );
 
-  asteroid.name = name
+      asteroid.name = name
 
-  return asteroid;
-}
+      return asteroid;
+    }
 
-// Crear 10 NEOs
-const neoCount = 7;
-const neos = [];
-const path_of_neos = []
+    // Crear 10 NEOs
+    const neoCount = 7;
+    const neos = [];
+    const path_of_neos = []
 
-for (let i = 0; i < neoCount; i++) {
-  const neo = createDeformedAsteroid(1, data.near_earth_objects[i].data.name); // Tamaño del NEO
-  // Generar un radio de órbita aleatorio
-  const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
-  const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
+    for (let i = 0; i < neoCount; i++) {
+      const neo = createDeformedAsteroid(1, data.near_earth_objects[i].data.name); // Tamaño del NEO
+      // Generar un radio de órbita aleatorio
+      const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
+      const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
 
-  // Asignar la posición inicial en su órbita circular
-  neo.position.x = neoOrbitRadius * Math.cos(angleOffset);
-  neo.position.z = neoOrbitRadius * Math.sin(angleOffset);
-  
-  // Guardar el radio de órbita y el desfase angular en el NEO
-  neo.neoOrbitRadius = neoOrbitRadius;
-  neo.angleOffset = angleOffset;
-  createNEOOrbit(neo);
- 
-  neos.push(neo); // Guardar el NEO en el array
-  scene.add(neo); // Añadir el NEO a la escena
+      // Asignar la posición inicial en su órbita circular
+      neo.position.x = neoOrbitRadius * Math.cos(angleOffset);
+      neo.position.z = neoOrbitRadius * Math.sin(angleOffset);
 
+      // Guardar el radio de órbita y el desfase angular en el NEO
+      neo.neoOrbitRadius = neoOrbitRadius;
+      neo.angleOffset = angleOffset;
+      createNEOOrbit(neo);
 
-}
+      neos.push(neo); // Guardar el NEO en el array
+      scene.add(neo); // Añadir el NEO a la escena
 
 
-        // Create NEO Orbit
-        function createNEOOrbit(neo) {
- 
-          const radius = neo.neoOrbitRadius;
-          const color = 0xff0000; // Color of the orbit
-          const width = 3 ; // Width of the orbit line
+    }
 
-          const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
-          const geometry = new THREE.BufferGeometry();
-          const lineLoopPoints = [];
-          const numSegments = 100; // Puedes ajustar este valor si es necesario
-          // Generate points for the elliptical orbit
-          for (let i = 0; i < Math.min(numSegments, 100); i++) {
 
-            const angle = (i / numSegments) * Math.PI * 2;
-              // Define semi-axes of the ellipse
-              const semiMajorAxis = radius; // Semi-major axis
-              const semiMinorAxis = radius * 0.6; // Semi-minor axis
+    // Create NEO Orbit
+    function createNEOOrbit(neo) {
 
-              // Calculate the new position in the elliptical orbit
-              const x = semiMajorAxis * Math.cos(angle);
-              const z = semiMinorAxis * Math.sin(angle); // Inverted z for clockwise orbit
-            
-              lineLoopPoints.push(x, 0, z);
-            }
+      const radius = neo.neoOrbitRadius;
+      const color = 0xff0000; // Color of the orbit
+      const width = 3; // Width of the orbit line
 
-          geometry.setAttribute('position', new THREE.Float32BufferAttribute(lineLoopPoints, 3));
-          const lineLoop = new THREE.LineLoop(geometry, material);
-          scene.add(lineLoop);
-          path_of_neos.push(lineLoop);
+      const material = new THREE.LineBasicMaterial({ color: color, linewidth: width });
+      const geometry = new THREE.BufferGeometry();
+      const lineLoopPoints = [];
+      const numSegments = 100; // Puedes ajustar este valor si es necesario
+      // Generate points for the elliptical orbit
+      for (let i = 0; i < Math.min(numSegments, 100); i++) {
+
+        const angle = (i / numSegments) * Math.PI * 2;
+        // Define semi-axes of the ellipse
+        const semiMajorAxis = radius; // Semi-major axis
+        const semiMinorAxis = radius * 0.6; // Semi-minor axis
+
+        // Calculate the new position in the elliptical orbit
+        const x = semiMajorAxis * Math.cos(angle);
+        const z = semiMinorAxis * Math.sin(angle); // Inverted z for clockwise orbit
+
+        lineLoopPoints.push(x, 0, z);
       }
 
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(lineLoopPoints, 3));
+      const lineLoop = new THREE.LineLoop(geometry, material);
+      scene.add(lineLoop);
+      path_of_neos.push(lineLoop);
+    }
 
-// Función para animar los asteroides
-const animateAsteroids = () => {
-  // neos.forEach((neo) => {
 
-  //   // Actualizar la posición del NEO para que gire alrededor del sol
-  //   neo.angleOffset += 0.01;  // Aumentamos el ángulo pero ajustaremos la dirección con coseno y seno
-  //   // Invertir el sentido de la rotación cambiando el signo del seno
-  //   neo.position.x = neo.neoOrbitRadius * Math.cos(neo.angleOffset);
-  //   neo.position.z = neo.neoOrbitRadius * -Math.sin(neo.angleOffset);  // Cambiar el signo aquí para rotación inversa
-    
-  //   // Rotación del asteroide sobre su propio eje
-  //   neo.rotation.x += 0.01; // Rotación en el eje X
-  //   neo.rotation.y += 0.01; // Rotación en el eje Y
-  //   neo.rotation.z += 0.01; // Rotación en el eje Z
-  // });
-  neos.forEach((neo) => {
-    neo.angleOffset += 0.01 * optionsRef.current.speed;  // Avanzar el ángulo para la animación
-    
-    // Definir semi-ejes de la elipse
-    const semiMajorAxis = neo.neoOrbitRadius; // Semi-eje mayor
-    const semiMinorAxis = neo.neoOrbitRadius * 0.6; // Semi-eje menor (más pequeño que el mayor)
+    // Función para animar los asteroides
+    const animateAsteroids = () => {
+      // neos.forEach((neo) => {
 
-    // Calcular la nueva posición elíptica
-    neo.position.x = semiMajorAxis * Math.cos(neo.angleOffset);
-    neo.position.z = semiMinorAxis * -Math.sin(neo.angleOffset); // Órbita elíptica en eje z
+      //   // Actualizar la posición del NEO para que gire alrededor del sol
+      //   neo.angleOffset += 0.01;  // Aumentamos el ángulo pero ajustaremos la dirección con coseno y seno
+      //   // Invertir el sentido de la rotación cambiando el signo del seno
+      //   neo.position.x = neo.neoOrbitRadius * Math.cos(neo.angleOffset);
+      //   neo.position.z = neo.neoOrbitRadius * -Math.sin(neo.angleOffset);  // Cambiar el signo aquí para rotación inversa
 
-    // Aquí podrías también cambiar el eje y para una órbita inclinada si es necesario
-  });
-  
-};
+      //   // Rotación del asteroide sobre su propio eje
+      //   neo.rotation.x += 0.01; // Rotación en el eje X
+      //   neo.rotation.y += 0.01; // Rotación en el eje Y
+      //   neo.rotation.z += 0.01; // Rotación en el eje Z
+      // });
+      neos.forEach((neo) => {
+        neo.angleOffset += 0.01 * optionsRef.current.speed;  // Avanzar el ángulo para la animación
+
+        // Definir semi-ejes de la elipse
+        const semiMajorAxis = neo.neoOrbitRadius; // Semi-eje mayor
+        const semiMinorAxis = neo.neoOrbitRadius * 0.6; // Semi-eje menor (más pequeño que el mayor)
+
+        // Calcular la nueva posición elíptica
+        neo.position.x = semiMajorAxis * Math.cos(neo.angleOffset);
+        neo.position.z = semiMinorAxis * -Math.sin(neo.angleOffset); // Órbita elíptica en eje z
+
+        // Aquí podrías también cambiar el eje y para una órbita inclinada si es necesario
+      });
+
+    };
 
 
     const planets = [
@@ -425,19 +453,28 @@ const animateAsteroids = () => {
       { ...genratePlanet('Planet', 'pluto', 2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
     ];
 
-    const celestialTypes = ['All','Apollo','Amor','Asteroid','Mars-Crossing Asteroid','Main-Belt Asteroid','TransNeptunian Object', 'Planet', 'Star', 'Moon']; // Lista de tipos de cuerpos celestes
+    const asteroids = [
+      { ...createDeformedAsteroid(3.3, '') }
+    ]
+
+    const orbitTypes = ['All', 'Apollo', 'Amor', 'Asteroid', 'Mars-Crossing Asteroid', 'Main-Belt Asteroid', 'TransNeptunian Object', 'Planet', 'Star', 'Moon']; // Lista de tipos de orbita
+    const objectTypes = ['All',"NEO'S", "PHA'S"]; // Lista de tipos de objeto
 
     // GUI
     const gui = new GUI();
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
-    gui.add(optionsRef.current, 'Show NEO Orbit').onChange(e => {path_of_neos.forEach(dpath => { dpath.visible = e; }) });
+    gui.add(optionsRef.current, 'Show NEO Orbit').onChange(e => { path_of_neos.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     gui.add(optionsRef.current, 'Show labels').onChange(e => { toggleLabels(e); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
-    gui.add(optionsRef.current, 'Celestial type', celestialTypes).onChange(value => {
-      optionsRef.current['Celestial type'] = value;
-      filterCelestialBodies(value); // Lógica para filtrar cuerpos celestes
+    gui.add(optionsRef.current, 'Orbit type', orbitTypes).onChange(value => {
+      optionsRef.current['Orbit type'] = value;
+      filterOrbitType(value); // Lógica para filtrar tipo de orbita
+    });
+    gui.add(optionsRef.current, 'Object type', objectTypes).onChange(value => {
+      optionsRef.current['Object type'] = value;
+      filterObjectType(value); // Lógica para filtrar tipos de objetos
     });
     gui.add(optionsRef.current, 'speed', 0, maxSpeed ? maxSpeed : 20).onChange(value => {
       optionsRef.current.speed = value;
@@ -450,12 +487,9 @@ const animateAsteroids = () => {
         planetObj.rotateY(optionsRef.current.speed * rotaing_speed_around_sun);
         planet.rotateY(optionsRef.current.speed * self_rotation_speed);
 
-        // labelSprite.position.copy(planet.position.clone());
-        // labelSprite.position.y += size
-
         labelSprite.position.copy(planet.position);
         labelSprite.position.y += 15;
-        //labelSprite.position.x += 10;
+
       });
 
       animateAsteroids();
