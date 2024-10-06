@@ -20,6 +20,7 @@ import { objectCatalog } from '../constants/objectCatalog';
 import { useDisclosure } from '@mantine/hooks';
 import InfoModal from './InfoModal';
 import { cameraPosition } from 'three/webgpu';
+import data from '../constants/data.json';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -301,7 +302,7 @@ const Animation = () => {
     };
 
     // Función para crear un asteroide con una forma deformada
-function createDeformedAsteroid(size) {
+function createDeformedAsteroid(size, name) {
   const geometry = new THREE.SphereGeometry(size, 8, 8); // menor resolución para deformar
   const asteroidmaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
   const material = asteroidmaterial;
@@ -314,6 +315,8 @@ function createDeformedAsteroid(size) {
       1 + Math.random() * 0.3  // Deformación aleatoria en el eje z
   );
 
+  asteroid.name = name
+
   return asteroid;
 }
 
@@ -323,7 +326,7 @@ const neos = [];
 const path_of_neos = []
 
 for (let i = 0; i < neoCount; i++) {
-  const neo = createDeformedAsteroid(1); // Tamaño del NEO
+  const neo = createDeformedAsteroid(1, data.near_earth_objects[i].data.name); // Tamaño del NEO
   // Generar un radio de órbita aleatorio
   const neoOrbitRadius = Math.random() * 80 + 40; // Rango de radio entre 10 y 30
   const angleOffset = Math.random() * Math.PI * 2; // Desfase angular aleatorio
