@@ -84,6 +84,16 @@ const Animation = () => {
   
         // Obtener información del catálogo basada en el nombre del objeto
         const info = objectCatalog[clickedObject.name];
+
+
+    // Obtener coordenadas globales del objeto clicado
+    const worldPosition = new THREE.Vector3();
+    clickedObject.getWorldPosition(worldPosition);
+
+    // Mostrar las coordenadas en la consola
+    console.log(`Objeto clicado: ${clickedObject.name}`);
+    console.log(`Coordenadas del objeto: x=${worldPosition.x}, y=${worldPosition.y}, z=${worldPosition.z}`);
+
         // Crear un label o un popup con la información
         if (info) {
           
@@ -96,13 +106,14 @@ const Animation = () => {
               }
             });
           }
+
           camera.position.set(
-            clickedObject.position.x,
-            clickedObject.position.y + clickedObject.geometry.parameters.radius + 40,
-            clickedObject.position.z
+            worldPosition.x,
+            clickedObject.geometry.parameters.radius + 10,
+            worldPosition.z,
           );
           // Orientar la cámara hacia el planeta seleccionado
-          camera.lookAt(clickedObject.position);
+          camera.lookAt(worldPosition);
           setNeoInfo(info);
           open();
         }
@@ -242,6 +253,7 @@ const Animation = () => {
         planetObj.rotateY(optionsRef.current.speed * rotaing_speed_around_sun);
         planet.rotateY(optionsRef.current.speed * self_rotation_speed);
       });
+
       renderer.render(scene, camera);
     };
     renderer.setAnimationLoop(animate);
