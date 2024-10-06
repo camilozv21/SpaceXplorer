@@ -7,7 +7,7 @@ import { Modal, Tooltip, Button } from '@mantine/core';
 const InfoModal = ({ opened, onClose, neoInfo }) => {
   const isPlanetOrStar = neoInfo.type === 'Planet' || neoInfo.type === 'Star';
   const selectedData = isPlanetOrStar ? dataPlanets.near_earth_objects : data.near_earth_objects;
-  const selectedObject = selectedData.find(obj => obj.data.name === neoInfo.data.name);
+  const selectedObject = isPlanetOrStar ? selectedData.find(obj => obj.data.name === neoInfo.name) : selectedData.find(obj => obj.data.name === neoInfo.data.name);
 
   return (
     <Modal
