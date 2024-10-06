@@ -34,7 +34,7 @@ const Animation = () => {
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
   // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
-  const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Celestial type': 'All' });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, speed: 1, 'Celestial type': 'All' });
   const guiRef = useRef(null);
 
   const onCloseModal = () => {
@@ -56,6 +56,8 @@ const Animation = () => {
         }
       });
     }
+
+    toggleLabels(true);
   };
 
 
@@ -90,10 +92,6 @@ const Animation = () => {
       const worldPosition = new THREE.Vector3();
       clickedObject.getWorldPosition(worldPosition);
 
-      // Mostrar las coordenadas en la consola
-      console.log(`Objeto clicado: ${clickedObject.name}`);
-      console.log(`Coordenadas del objeto: x=${worldPosition.x}, y=${worldPosition.y}, z=${worldPosition.z}`);
-
       // Crear un label o un popup con la información
       if (info) {
 
@@ -106,6 +104,8 @@ const Animation = () => {
             }
           });
         }
+
+        toggleLabels(false);
 
         camera.position.set(
           worldPosition.x,
@@ -133,6 +133,14 @@ const Animation = () => {
             child.visible = false;
           }
         }
+      }
+    });
+  };
+
+  const toggleLabels = (showLabels) => {
+    scene.traverse((child) => {
+      if (child.isSprite) {
+        child.visible = showLabels;
       }
     });
   };
@@ -216,12 +224,13 @@ const Animation = () => {
       scene.add(lineLoop);
       path_of_planets.push(lineLoop);
     }
+
     const createLabel = (name, position) => {
       const canvas = document.createElement('canvas');
       canvas.width = 400 ;  // Set canvas width before drawing anything
       canvas.height = 128;
       const context = canvas.getContext('2d');
-    
+
       context.fillStyle = 'transparent';  // Set the background color
       context.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -291,6 +300,7 @@ const Animation = () => {
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
+    gui.add(optionsRef.current, 'Show labels').onChange(e => { toggleLabels(e); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
     gui.add(optionsRef.current, 'Celestial type', celestialTypes).onChange(value => {
       optionsRef.current['Celestial type'] = value;
