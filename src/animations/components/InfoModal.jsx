@@ -13,6 +13,9 @@ const InfoModal = ({ opened, onClose,neoInfo}) => {
       overlayProps={{
         backgroundOpacity: 0,
       }}
+      zIndex={0}
+      closeOnClickOutside={false}
+      withOverlay={false}
     >
      {neoInfo && (
         <div>

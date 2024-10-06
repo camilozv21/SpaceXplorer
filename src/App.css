@@ -4,8 +4,6 @@
 
 }
 
-
-
 .modal-menu .mantine-Modal-content {
     background-color: #181818;
     color: white;
@@ -23,5 +21,5 @@
 }
 
 .modal-menu .mantine-Modal-inner {
-    justify-content: flex-end !important;
+    justify-content: flex-start;
 }
