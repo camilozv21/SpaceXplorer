@@ -34,7 +34,7 @@ const Animation = () => {
   const [neoInfo, setNeoInfo] = useState(null);
   // const [options, setOptions] = useState({ 'Real view': true, 'Show path': true, speed: 1 });
   // const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Test':true });
-  const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
+  const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Celestial type': 'All' });
   const guiRef = useRef(null);
 
    const onCloseModal = () => {
@@ -119,6 +119,23 @@ const Animation = () => {
         }
       }
     }
+
+    const filterCelestialBodies = (type) => {
+      scene.traverse((child) => {
+        if (child.isMesh) {
+          if (type === 'All') {
+            child.visible = true;
+          } else {
+            const info = objectCatalog[child.name];
+            if (info && info.type === type) {
+              child.visible = true;
+            } else {
+              child.visible = false;
+            }
+          }
+        }
+      });
+    };
   
 
   useEffect(() => {
@@ -172,6 +189,7 @@ const Animation = () => {
     const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
     const sun = new THREE.Mesh(sungeo, sunMaterial);
     sun.name = 'sun';
+    sun.type = 'Star';
     scene.add(sun);
 
     // Lights
@@ -200,13 +218,14 @@ const Animation = () => {
     }
 
     // Generate planets
-    const genratePlanet = (name, size, planetTexture, x, ring) => {
+    const genratePlanet = (type, name, size, planetTexture, x, ring) => {
       const planetGeometry = new THREE.SphereGeometry(size, 50, 50);
       const planetMaterial = new THREE.MeshStandardMaterial({ map: planetTexture });
       const planet = new THREE.Mesh(planetGeometry, planetMaterial);
       const planetObj = new THREE.Object3D();
       planet.position.set(x * scaleFactor, 0, 0);
       planet.name = name;
+      planet.type = type;
 
       if (ring) {
         const ringGeo = new THREE.RingGeometry(ring.innerRadius, ring.outerRadius, 32);
@@ -223,16 +242,18 @@ const Animation = () => {
     };
 
     const planets = [
-      { ...genratePlanet('mercury', 3.2, mercuryTexture, 28), rotaing_speed_around_sun: 0.004, self_rotation_speed: 0.004 },
-      { ...genratePlanet('venus', 5.8, venusTexture, 44), rotaing_speed_around_sun: 0.015, self_rotation_speed: 0.002 },
-      { ...genratePlanet('earth', 6, earthTexture, 62), rotaing_speed_around_sun: 0.01, self_rotation_speed: 0.02 },
-      { ...genratePlanet('mars', 4, marsTexture, 78), rotaing_speed_around_sun: 0.008, self_rotation_speed: 0.018 },
-      { ...genratePlanet('jupiter', 12, jupiterTexture, 100), rotaing_speed_around_sun: 0.002, self_rotation_speed: 0.04 },
-      { ...genratePlanet('saturn', 10, saturnTexture, 138, { innerRadius: 10, outerRadius: 20, ringmat: saturnRingTexture }), rotaing_speed_around_sun: 0.0009, self_rotation_speed: 0.038 },
-      { ...genratePlanet('uranus', 7, uranusTexture, 176, { innerRadius: 7, outerRadius: 12, ringmat: uranusRingTexture }), rotaing_speed_around_sun: 0.0004, self_rotation_speed: 0.03 },
-      { ...genratePlanet('neptune', 7, neptuneTexture, 200), rotaing_speed_around_sun: 0.0001, self_rotation_speed: 0.032 },
-      { ...genratePlanet('pluto', 2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
+      { ...genratePlanet('Planet', 'mercury', 3.2, mercuryTexture, 28), rotaing_speed_around_sun: 0.004, self_rotation_speed: 0.004 },
+      { ...genratePlanet('Planet', 'venus', 5.8, venusTexture, 44), rotaing_speed_around_sun: 0.015, self_rotation_speed: 0.002 },
+      { ...genratePlanet('Planet', 'earth', 6, earthTexture, 62), rotaing_speed_around_sun: 0.01, self_rotation_speed: 0.02 },
+      { ...genratePlanet('Planet', 'mars', 4, marsTexture, 78), rotaing_speed_around_sun: 0.008, self_rotation_speed: 0.018 },
+      { ...genratePlanet('Planet', 'jupiter', 12, jupiterTexture, 100), rotaing_speed_around_sun: 0.002, self_rotation_speed: 0.04 },
+      { ...genratePlanet('Planet', 'saturn', 10, saturnTexture, 138, { innerRadius: 10, outerRadius: 20, ringmat: saturnRingTexture }), rotaing_speed_around_sun: 0.0009, self_rotation_speed: 0.038 },
+      { ...genratePlanet('Planet', 'uranus', 7, uranusTexture, 176, { innerRadius: 7, outerRadius: 12, ringmat: uranusRingTexture }), rotaing_speed_around_sun: 0.0004, self_rotation_speed: 0.03 },
+      { ...genratePlanet('Planet', 'neptune', 7, neptuneTexture, 200), rotaing_speed_around_sun: 0.0001, self_rotation_speed: 0.032 },
+      { ...genratePlanet('Planet', 'pluto', 2.8, plutoTexture, 216), rotaing_speed_around_sun: 0.0007, self_rotation_speed: 0.008 },
     ];
+
+    const celestialTypes = ['All', 'Planeta', 'Estrella', 'Moon']; // Lista de tipos de cuerpos celestes
 
     // GUI
     const gui = new GUI();
@@ -241,9 +262,12 @@ const Animation = () => {
    // gui.add(optionsRef.current, 'Test').onChange(e => {path_of_planets.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
+    gui.add(optionsRef.current, 'Celestial type', celestialTypes).onChange(value => {
+      optionsRef.current['Celestial type'] = value;
+      filterCelestialBodies(value); // Lógica para filtrar cuerpos celestes
+    });
     gui.add(optionsRef.current, 'speed', 0, maxSpeed ? maxSpeed : 20).onChange(value => {
       optionsRef.current.speed = value;
- 
     });
 
     // Animation
