@@ -88,8 +88,7 @@ const Animation = () => {
       const clickedObject = intersects[0].object;
 
       // Obtener información del catálogo basada en el nombre del objeto
-      const info = objectCatalog[clickedObject.name];
-
+      const info = objectCatalog[clickedObject.name] ? objectCatalog[clickedObject.name] : data.near_earth_objects.find(obj => obj.data.name === clickedObject.name);
 
     // Obtener coordenadas globales del objeto clicado
     const worldPosition = new THREE.Vector3();
@@ -375,7 +374,6 @@ for (let i = 0; i < neoCount; i++) {
 
           geometry.setAttribute('position', new THREE.Float32BufferAttribute(lineLoopPoints, 3));
           const lineLoop = new THREE.LineLoop(geometry, material);
-          console.log(lineLoopPoints.length);
           scene.add(lineLoop);
           path_of_neos.push(lineLoop);
       }
@@ -397,7 +395,7 @@ const animateAsteroids = () => {
   //   neo.rotation.z += 0.01; // Rotación en el eje Z
   // });
   neos.forEach((neo) => {
-    neo.angleOffset += 0.01;  // Avanzar el ángulo para la animación
+    neo.angleOffset += 0.01 * optionsRef.current.speed;  // Avanzar el ángulo para la animación
     
     // Definir semi-ejes de la elipse
     const semiMajorAxis = neo.neoOrbitRadius; // Semi-eje mayor
