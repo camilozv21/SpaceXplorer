@@ -9,12 +9,12 @@ export const Landing = () => {
   return (
     <>
     <header>
-        <aside className='banner-header'>
+        {/* <aside className='banner-header'>
             <p>Beyond the Limits!</p>
-        </aside>
+        </aside> */}
         <nav>
             <ul className='navbar-list'>
-                <li><Link to={'/'}><Image src={logo} style={{ filter: 'invert(100%)', width: '100%', maxWidth: '160px'}} /></Link></li>
+                <li><Link to={'/'}><Image src={logo} style={{ filter: 'invert(100%)', width: '100%', maxWidth: '260px'}} /></Link></li>
                 <li>
                         <Link to={'/solar-system'}>Live Demo</Link>
                 </li>
@@ -25,7 +25,7 @@ export const Landing = () => {
             <section className='section-intro'>
                 <div className='content-image'>
                     <img src={video} />
-                    <Link to={'/solar-system'} id='live-demo-button' style={{ color: "#121212"}}>Live Demo</Link>
+                    <Link to={'/solar-system'} id='live-demo-button'>Live Demo</Link>
                 </div>
             </section>
         </main>
