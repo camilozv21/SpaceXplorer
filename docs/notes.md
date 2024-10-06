@@ -504,6 +504,146 @@ animate();
         },
   ]
 }
+
+////////////////////////////////////////////
+
+{
+    "near_earth_objects": [
+        {
+            "id": "SUN",
+            "data": {
+                "name": "Sun",
+                "absolute_magnitude_h":4.83,
+                "estimated_diameter": 13927000.000,
+                "gravity": 3.7, 
+                "density": 1408,
+                "orbiting_body": "-",
+                "first_observation_date": "-",
+                "orbit_class_type": "-",
+                "orbit_class_description": "",
+                "olbedo": "-"
+                
+
+            }
+        },
+        {
+            "id": "MERCURY",
+            "data": {
+                "name": "Mercury",
+                "type": "Terrestrial",
+                "estimated_diameter": 4879.0000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min: -173°, max: 427°",
+                "density": 5427,
+                "gravity": 3.7, 
+                "number_of_moons": 0,
+                "albedo": 0.12
+            }
+        },
+        {
+            "id": "VENUS",
+            "data": {
+                "name": "Venus",
+                "type": "Terrestrial",
+                "estimated_diameter": 12104.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -45.15 °C, max 499.85 °C",
+                "density": 5243,
+                "gravity": 8.87 , 
+                "number_of_moons": 0,
+                "albedo": 0.65
+
+            }
+        },
+        {
+            "id": "EARTH",
+            "data": {
+                "name": "Earth",
+                "type": "Terrestrial",
+                "estimated_diameter": 12742.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -89.15 °C, max 56.7 °C",
+                "density": 5514,
+                "gravity": 9.807, 
+                "number_of_moons": 1,
+                "albedo": 0.306
+
+            }
+        },
+        {
+            "id": "MARS",
+            "data": {
+                "name": "Mars",
+                "type": "Terrestrial",
+                "estimated_diameter": 6779.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -125 °C, max 20 °C",
+                "density": 3933,
+                "gravity": 3.721, 
+                "number_of_moons": 2,
+                "albedo": 0.306
+            }
+        },
+        {
+            "id": "JUPITER",
+            "data": {
+                "name": "Jupiter",
+                "type": "Gaseous",
+                "estimated_diameter": 139822.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -145 °C, max 24000 °C",
+                "density": 1326,
+                "gravity": 24.79, 
+                "number_of_moons": 80,
+                "albedo": 0.520
+
+            }
+        },
+        {
+            "id": "SATURN",
+            "data": {
+                "name": "Saturno",
+                "type": "Gaseous",
+                "estimated_diameter": 116464.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": "min -178 °C, max 11700  °C",
+                "density": 687,
+                "gravity": 10.44 , 
+                "number_of_moons": 83,
+                "albedo": 0.470
+            }
+        },
+        {
+            "id": "URANO",
+            "data": {
+                "name": "Urano",
+                "type": "Gaseous",
+                "estimated_diameter": 50724.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": " -205,2 °C, max -218  °C",
+                "density": 1270,
+                "gravity": 8.69, 
+                "number_of_moons": 27,
+                "albedo": 0.51
+            }
+        },
+        {
+            "id": "NETPUNO",
+            "data": {
+                "name": "Neptuno",
+                "type": "Gaseous",
+                "estimated_diameter": 49244.000,
+                "orbiting_body": "Sun",
+                "surface_temperature": " -217 °C, max  -220 °C",
+                "density": 1638,
+                "gravity": 11.15, 
+                "number_of_moons": 14,
+                "albedo": 0.41
+            }
+        }
+       
+    ]
+}
 ```
 
 
