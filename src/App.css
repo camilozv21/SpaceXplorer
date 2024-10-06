@@ -53,3 +53,15 @@
     gap: 0.5rem;
     font-size: 18px;
 }
+
+.mantine-Notification-title {
+    font-size: 26px !important;
+}
+
+.mantine-Notification-description {
+    font-size: 19px !important;
+}
+
+.mantine-Notification-root {
+    border: 3px solid yellow;
+}
