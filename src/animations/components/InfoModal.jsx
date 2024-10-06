@@ -109,13 +109,13 @@ const InfoModal = ({ opened, onClose, neoInfo }) => {
           {selectedObject.data?.close_approach_data && (
             <>
               <div className='list-card-container'>
-                <IconCalendar stroke={2} color='#ff00ff' /> Close approach date: {selectedObject.data.close_approach_data[0].close_approach_date}{' '}
+                <IconCalendar stroke={2} color='#ff00ff' /> Close approach date: {selectedObject.data.close_approach_data[0]?.close_approach_date}{' '}
                 <Tooltip multiline w={220} withArrow transitionProps={{ duration: 200 }} label="The date of the object's close approach to Earth.">
                   <IconHelp stroke={2} color='yellow' />
                 </Tooltip>
               </div>
               <div className='list-card-container'>
-                <IconComet stroke={2} color='#00dbe3' /> Miss distance: {selectedObject.data.close_approach_data[0].miss_distance.kilometers} km{' '}
+                <IconComet stroke={2} color='#00dbe3' /> Miss distance: {selectedObject.data.close_approach_data[0]?.miss_distance.kilometers} km{' '}
                 <Tooltip multiline w={220} withArrow transitionProps={{ duration: 200 }} label="The distance at which the object will miss Earth.">
                   <IconHelp stroke={2} color='yellow' />
                 </Tooltip>
