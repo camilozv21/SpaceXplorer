@@ -3,7 +3,7 @@ import './Landing.css'
 import { AspectRatio, Button, Divider, Image, Overlay } from '@mantine/core'
 import { Link } from 'react-router-dom'
 import logo from '../constants/images/logo.png'
-import video from '../constants/images/demovideo.gif'
+import video from '../constants/images/companyvideo.gif'
 
 export const Landing = () => {
   return (
