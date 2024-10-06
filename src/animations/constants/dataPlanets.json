@@ -3,7 +3,7 @@
         {
             "id": "SUN",
             "data": {
-                "name": "Sol",
+                "name": "Sun",
                 "type": "Star",
                 "absolute_magnitude_h": 4.83,
                 "estimated_diameter": 13927000.000,
@@ -21,7 +21,7 @@
         {
             "id": "MERCURY",
             "data": {
-                "name": "Mercurio",
+                "name": "Mercury",
                 "type": "Terrestrial",
                 "absolute_magnitude_h": "-0.42",
                 "estimated_diameter": 4879.0000,
@@ -57,7 +57,7 @@
         {
             "id": "EARTH",
             "data": {
-                "name": "Tierra",
+                "name": "Earth",
                 "type": "Terrestrial",
                 "absolute_magnitude_h": "-3.99",
                 "estimated_diameter": 12742.000,
@@ -75,7 +75,7 @@
         {
             "id": "MARS",
             "data": {
-                "name": "Marte",
+                "name": "Mars",
                 "type": "Terrestrial",
                 "absolute_magnitude_h": "-1.52",
                 "estimated_diameter": 6779.000,
@@ -93,7 +93,7 @@
         {
             "id": "JUPITER",
             "data": {
-                "name": "Júpiter",
+                "name": "Jupiter",
                 "type": "Gaseous",
                 "absolute_magnitude_h": "-2.94",
                 "estimated_diameter": 139822.000,
@@ -111,7 +111,7 @@
         {
             "id": "SATURN",
             "data": {
-                "name": "Saturno",
+                "name": "Saturn",
                 "type": "Gaseous",
                 "absolute_magnitude_h": "-0.49",
                 "estimated_diameter": 116464.000,
@@ -129,7 +129,7 @@
         {
             "id": "URANUS",
             "data": {
-                "name": "Urano",
+                "name": "Uranus",
                 "type": "Gaseous",
                 "absolute_magnitude_h": "5.32",
                 "estimated_diameter": 50724.000,
@@ -147,7 +147,7 @@
         {
             "id": "NEPTUNE",
             "data": {
-                "name": "Neptuno",
+                "name": "Neptune",
                 "type": "Gaseous",
                 "absolute_magnitude_h": "7.78",
                 "estimated_diameter": 49244.000,
@@ -165,7 +165,7 @@
         {
             "id": "PLUTO",
             "data": {
-                "name": "Plutón",
+                "name": "Pluto",
                 "type": "Terrestrial",
                 "absolute_magnitude_h": "13.65",
                 "estimated_diameter": 2376.600,

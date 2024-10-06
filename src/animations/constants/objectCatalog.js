@@ -1,11 +1,11 @@
 export const objectCatalog = {
     sun: {
-        name: "Sol",
+        name: "Sun",
         magnitude: "-100",
         type: "Star",
       },
       mercury: {
-        name: "Mercurio",
+        name: "Mercury",
         magnitude: "-0.42",
         type: "Planet",
       },
@@ -15,37 +15,37 @@ export const objectCatalog = {
         type: "Planet",
       },
       earth: {
-        name: "Tierra",
+        name: "Earth",
         magnitude: "-3.99",
         type: "Planet",
       },
       mars: {
-        name: "Marte",
+        name: "Mars",
         magnitude: "-1.52",
         type: "Planet",
       },
       jupiter: {
-        name: "Júpiter",
+        name: "Jupiter",
         magnitude: "-2.94",
         type: "Planet",
       },
       saturn: {
-        name: "Saturno",
+        name: "Saturn",
         magnitude: "-0.49",
         type: "Planet",
       },
       uranus: {
-        name: "Urano",
+        name: "Uranus",
         magnitude: "5.32",
         type: "Planet",
       },
       neptune: {
-        name: "Neptuno",
+        name: "Neptune",
         magnitude: "7.78",
         type: "Planet",
       },
       pluto: {
-        name: "Plutón",
+        name: "Pluto",
         magnitude: "13.65",
         type: "Planet",
       }
