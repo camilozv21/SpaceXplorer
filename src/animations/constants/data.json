@@ -10,6 +10,7 @@
           "orbiting_body": "Earth",
           "first_observation_date": "1893-10-29",
           "orbit_class_type": "Amor",
+          "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
           "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
           "close_approach_data": {
             "close_approach_date": "2025-11-30",
@@ -33,6 +34,7 @@
           "first_observation_date": "undefined",
           "orbiting_body": "Earth",
           "orbit_class_type": "Apollo",
+          "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
           "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
           "close_approach_data": {
             "close_approach_date": "2025-05-24",
@@ -56,6 +58,7 @@
           "first_observation_date": "undefined",
           "orbiting_body": "Earth",
           "orbit_class_type": "Amor",
+          "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
           "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
           "close_approach_data": {
             "close_approach_date": "2028-06-07",
@@ -79,6 +82,7 @@
           "first_observation_date": "1951-11-02",
           "orbiting_body": "Earth",
           "orbit_class_type": "Apollo",
+          "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
           "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
           "close_approach_data": {
             "close_approach_date": "2026-08-12",
@@ -103,6 +107,7 @@
           "first_observation_date": "1929-12-02",
           "orbiting_body": "Earth",
           "orbit_class_type": "Amor",
+          "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
           "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
           "close_approach_data": {
             "close_approach_date": "2041-06-29",
@@ -126,10 +131,11 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "1921-11-16",
                   "orbit_class_type": "Amor",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
-                          "close_approach_date": "45264648.3656269134",
+                          "close_approach_date": "2025-08-17",
                           "kilometers_per_second": "72846390.916095843",
                           "miss_distance": {
                               "astronomical": "0.4869480489",
@@ -151,6 +157,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Amor",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
@@ -176,6 +183,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Amor",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
@@ -201,6 +209,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Amor",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
@@ -226,6 +235,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Amor",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "ear-Earth asteroid orbits similar to that of 1221 Amor",
                   "close_approach_data": [
                       {
@@ -251,6 +261,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Apollo",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
                   "close_approach_data": [
                       {
@@ -276,6 +287,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Apollo",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
                   "close_approach_data": [
                       {
@@ -301,6 +313,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Apollo",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
                   "close_approach_data": [
                       {
@@ -325,6 +338,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Apollo",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
                   "close_approach_data": [
                       {
@@ -350,6 +364,7 @@
                   "orbiting_body": "Earth",
                   "first_observation_date": "undefined",
                   "orbit_class_type": "Apollo",
+                  "stl" : "https://github.com/camilozv21/SpaceXplorer/blob/main/src/animations/constants/stl/neo.stl?raw=true",
                   "orbit_class_description": "ear-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo",
                   "close_approach_data": [
                       {
