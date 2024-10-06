@@ -37,16 +37,16 @@ const Animation = () => {
   const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1, 'Celestial type': 'All' });
   const guiRef = useRef(null);
 
-   const onCloseModal = () => {
+  const onCloseModal = () => {
     close();
-  
+
     // Restablecer la posición de la cámara
     camera.position.set(-50, 90, 150);
     camera.lookAt(scene.position); // Asegúrate de que la cámara esté mirando hacia el centro de la escena
-  
+
     // Actualizar el raycaster con la nueva posición de la cámara
     raycaster.setFromCamera(mouse, camera);
-  
+
     // Restablecer la velocidad
     optionsRef.current.speed = 1;
     if (guiRef.current) {
@@ -80,63 +80,63 @@ const Animation = () => {
 
     // Si hay intersección
     if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-  
-        // Obtener información del catálogo basada en el nombre del objeto
-        const info = objectCatalog[clickedObject.name];
+      const clickedObject = intersects[0].object;
+
+      // Obtener información del catálogo basada en el nombre del objeto
+      const info = objectCatalog[clickedObject.name];
 
 
-    // Obtener coordenadas globales del objeto clicado
-    const worldPosition = new THREE.Vector3();
-    clickedObject.getWorldPosition(worldPosition);
+      // Obtener coordenadas globales del objeto clicado
+      const worldPosition = new THREE.Vector3();
+      clickedObject.getWorldPosition(worldPosition);
 
-    // Mostrar las coordenadas en la consola
-    console.log(`Objeto clicado: ${clickedObject.name}`);
-    console.log(`Coordenadas del objeto: x=${worldPosition.x}, y=${worldPosition.y}, z=${worldPosition.z}`);
+      // Mostrar las coordenadas en la consola
+      console.log(`Objeto clicado: ${clickedObject.name}`);
+      console.log(`Coordenadas del objeto: x=${worldPosition.x}, y=${worldPosition.y}, z=${worldPosition.z}`);
 
-        // Crear un label o un popup con la información
-        if (info) {
-          
-          // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
-          optionsRef.current.speed = 0; // Detener el movimiento
-          if (guiRef.current) {
-            guiRef.current.__controllers.forEach(controller => {
-              if (controller.property === 'speed') {
-                controller.setValue(0);
-              }
-            });
-          }
+      // Crear un label o un popup con la información
+      if (info) {
 
-          camera.position.set(
-            worldPosition.x,
-            clickedObject.geometry.parameters.radius + 10,
-            worldPosition.z,
-          );
-          // Orientar la cámara hacia el planeta seleccionado
-          camera.lookAt(worldPosition);
-          setNeoInfo(info);
-          open();
+        // setOptions((prevOptions) => ({ ...prevOptions, speed: 0 })); // Detener el movimiento
+        optionsRef.current.speed = 0; // Detener el movimiento
+        if (guiRef.current) {
+          guiRef.current.__controllers.forEach(controller => {
+            if (controller.property === 'speed') {
+              controller.setValue(0);
+            }
+          });
         }
+
+        camera.position.set(
+          worldPosition.x,
+          clickedObject.geometry.parameters.radius + 10,
+          worldPosition.z,
+        );
+        // Orientar la cámara hacia el planeta seleccionado
+        camera.lookAt(worldPosition);
+        setNeoInfo(info);
+        open();
       }
     }
+  }
 
-    const filterCelestialBodies = (type) => {
-      scene.traverse((child) => {
-        if (child.isMesh) {
-          if (type === 'All') {
+  const filterCelestialBodies = (type) => {
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        if (type === 'All') {
+          child.visible = true;
+        } else {
+          const info = objectCatalog[child.name];
+          if (info && info.type === type) {
             child.visible = true;
           } else {
-            const info = objectCatalog[child.name];
-            if (info && info.type === type) {
-              child.visible = true;
-            } else {
-              child.visible = false;
-            }
+            child.visible = false;
           }
         }
-      });
-    };
-  
+      }
+    });
+  };
+
 
   useEffect(() => {
     // Renderer
@@ -149,7 +149,7 @@ const Animation = () => {
 
     // Camera
     // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-50, 90, 150); // EFECTO ONCLOSE SETTEARLO 
+    camera.position.set(-50, 90, 150);
     // camera.position.set(0,0,50);
 
     // Controls
@@ -216,9 +216,34 @@ const Animation = () => {
       scene.add(lineLoop);
       path_of_planets.push(lineLoop);
     }
+    const createLabel = (name, position) => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 400 ;  // Set canvas width before drawing anything
+      canvas.height = 128;
+      const context = canvas.getContext('2d');
+    
+      context.fillStyle = 'transparent';  // Set the background color
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    
+      context.font = 'bold 100px Arial';  // Set font properties after canvas width
+      context.fillStyle = 'white';
+      context.fillText(name, 20, 64);  // Draw the name on the canvas at a visible position
+    
+      const texture = new THREE.Texture(canvas);
+      texture.needsUpdate = true;
+    
+      const labelMaterial = new THREE.SpriteMaterial({ map: texture });
+      const labelSprite = new THREE.Sprite(labelMaterial);
+      labelSprite.scale.set(10, 5, 1);  // Adjust size as necessary
+      labelSprite.position.copy(position);  // Set position to match the planet
+    
+      return labelSprite;
+    };
+    
 
-    // Generate planets
+    // Generate planets  //Crear que el planeta tenga una etiqueta al momento de que se renderiza. 
     const genratePlanet = (type, name, size, planetTexture, x, ring) => {
+
       const planetGeometry = new THREE.SphereGeometry(size, 50, 50);
       const planetMaterial = new THREE.MeshStandardMaterial({ map: planetTexture });
       const planet = new THREE.Mesh(planetGeometry, planetMaterial);
@@ -235,10 +260,16 @@ const Animation = () => {
         ringMesh.position.set(x * scaleFactor, 0, 0);
         ringMesh.rotation.x = -0.5 * Math.PI;
       }
-      scene.add(planetObj);
       planetObj.add(planet);
+      scene.add(planetObj);
+
+      const labelSprite = createLabel(name, planet.position.clone().add(new THREE.Vector3(0, size + 5, 0)));
+      //const labelSprite = createLabel(name, planet.position.clone());
+      // scene.add(labelSprite);
+      planetObj.add(labelSprite);
+
       createLineLoopWithMesh(x * scaleFactor, 0xffffff, 3);
-      return { planetObj, planet };
+      return { planetObj, planet, labelSprite };
     };
 
     const planets = [
@@ -259,7 +290,6 @@ const Animation = () => {
     const gui = new GUI();
     guiRef.current = gui;
     gui.add(optionsRef.current, 'Real view').onChange(e => { ambientLight.intensity = e ? 0 : 0.5; });
-   // gui.add(optionsRef.current, 'Test').onChange(e => {path_of_planets.forEach(dpath => { dpath.visible = e; }) });
     gui.add(optionsRef.current, 'Show path').onChange(e => { path_of_planets.forEach(dpath => { dpath.visible = e; }); });
     const maxSpeed = new URL(window.location.href).searchParams.get('ms') * 1;
     gui.add(optionsRef.current, 'Celestial type', celestialTypes).onChange(value => {
@@ -273,12 +303,20 @@ const Animation = () => {
     // Animation
     const animate = time => {
       sun.rotateY(optionsRef.current.speed * 0.004);
-      planets.forEach(({ planetObj, planet, rotaing_speed_around_sun, self_rotation_speed }) => {
+      planets.forEach(({ planetObj, planet, rotaing_speed_around_sun, self_rotation_speed, labelSprite }) => {
         planetObj.rotateY(optionsRef.current.speed * rotaing_speed_around_sun);
         planet.rotateY(optionsRef.current.speed * self_rotation_speed);
+
+        // labelSprite.position.copy(planet.position.clone());
+        // labelSprite.position.y += size
+
+        labelSprite.position.copy(planet.position);
+        labelSprite.position.y += 15;
+        //labelSprite.position.x += 10;
       });
 
       renderer.render(scene, camera);
+
     };
     renderer.setAnimationLoop(animate);
 
