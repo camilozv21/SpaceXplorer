@@ -23,6 +23,7 @@ import InfoModal from './InfoModal';
 import { cameraPosition } from 'three/webgpu';
 import data from '../constants/data.json';
 import dataPlanets from '../constants/dataPlanets.json';
+import { showNotification } from '@mantine/notifications';
 
 // Definir variables globales
 const mouse = new THREE.Vector2();
@@ -41,6 +42,18 @@ const Animation = () => {
   const optionsRef = useRef({ 'Real view': true, 'Show path': true, 'Show labels': true, 'Show NEO Orbit': true, speed: 1, 'Orbit type': 'All','Object type':'All' });
   //const optionsRef = useRef({ 'Real view': true, 'Show path': true, speed: 1 });
   const guiRef = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      showNotification({
+        title: 'Apophis is nearer than ever!',
+        message: 'Today October 6, 2024 Apophis is at a distance of 68585153.184325793 Km.',
+        color: 'black',
+        icon: <IconComet stroke={2} color='yellow' />,
+        autoClose: 5000
+      });
+    }, 4000);
+  }, []);
 
   const onCloseModal = () => {
     close();
